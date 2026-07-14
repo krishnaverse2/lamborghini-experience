@@ -562,14 +562,14 @@ const mobileXMultiplier = isMobile ? 0.03 : 1;
  */
 const mobileYOffset = isMobile
   ? activeChapter === 0
-    ? -0.18
+    ? 0.08
     : activeChapter === 1
-      ? -0.28
+      ? 0.02
       : activeChapter === 2
-        ? -0.24
+        ? 0.05
         : activeChapter === 3
-          ? -0.3
-          : -0.22
+          ? 0
+          : 0.04
   : 0;
 
 springsRef.current.x.setTarget(
