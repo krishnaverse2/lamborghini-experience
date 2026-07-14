@@ -1429,9 +1429,6 @@
   gap: 10px;
 }
 
-.mobileProgress {
-  display: none;
-}
 
 @media (max-width: 768px) {
   /*
@@ -1516,42 +1513,60 @@
     gap: 15px;
   }
 
+  @media (max-width: 768px) {
+  .progress {
+    position: fixed;
+    top: 50%;
+    right: 8px;
+    z-index: 95;
+    display: block;
+    transform: translateY(-50%);
+    pointer-events: auto;
+  }
+
+  .desktopProgress {
+    display: none;
+  }
+
+  .mobileProgress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
   .progressDot {
     display: block;
-    width: 10px;
-    height: 10px;
-
-    border:
-      1px solid rgba(243, 241, 235, 0.52);
+    width: 11px;
+    height: 11px;
+    border: 1px solid rgba(243, 241, 235, 0.48);
     border-radius: 50%;
-
     background: transparent;
-
-    box-shadow: none;
-
     transition:
-      width 280ms ease,
-      height 280ms ease,
-      border-color 280ms ease,
-      background 280ms ease,
-      box-shadow 280ms ease,
-      transform 280ms
-        cubic-bezier(0.22, 1, 0.36, 1);
+      border-color 220ms ease,
+      background 220ms ease;
   }
 
   .progressDotActive {
-    width: 14px;
-    height: 14px;
-
     border-color: var(--accent);
     background: var(--accent);
-
-    box-shadow:
-      0 0 8px rgba(212, 170, 82, 0.9),
-      0 0 20px rgba(212, 170, 82, 0.48);
-
-    transform: scale(1.05);
   }
+}
+
+@media (max-width: 420px) {
+  .progress {
+    right: 7px;
+  }
+
+  .mobileProgress {
+    gap: 15px;
+  }
+
+  .progressDot {
+    width: 10px;
+    height: 10px;
+  }
+}
 
   /*
    * Prevent the chapter text from going under the
