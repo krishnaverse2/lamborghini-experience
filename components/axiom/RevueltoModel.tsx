@@ -62,9 +62,6 @@ const MODEL_PATH = "/models/revuelto.glb";
 const TARGET_LENGTH = 6.4;
 const BLUEPRINT_COLOUR = "#37b7df";
 
-/*
- * Keep your verified exterior body material here.
- */
 const BODY_PAINT_MATERIAL_NAMES = new Set([
   "Material.012",
 ]);
@@ -135,11 +132,7 @@ const FRAMES: SceneFrame[] = [
 function smoothstep(value: number) {
   const safeValue = MathUtils.clamp(value, 0, 1);
 
-  return (
-    safeValue *
-    safeValue *
-    (3 - 2 * safeValue)
-  );
+  return safeValue * safeValue * (3 - 2 * safeValue);
 }
 
 function getFrame(progress: number) {
@@ -164,40 +157,23 @@ function getFrame(progress: number) {
     }
   }
 
-  const range =
-    end.progress - start.progress;
+  const range = end.progress - start.progress;
 
   const localProgress =
     range === 0
       ? 0
       : MathUtils.clamp(
-          (progress - start.progress) /
-            range,
+          (progress - start.progress) / range,
           0,
           1,
         );
 
-  const eased =
-    smoothstep(localProgress);
+  const eased = smoothstep(localProgress);
 
   return {
-    x: MathUtils.lerp(
-      start.x,
-      end.x,
-      eased,
-    ),
-
-    y: MathUtils.lerp(
-      start.y,
-      end.y,
-      eased,
-    ),
-
-    z: MathUtils.lerp(
-      start.z,
-      end.z,
-      eased,
-    ),
+    x: MathUtils.lerp(start.x, end.x, eased),
+    y: MathUtils.lerp(start.y, end.y, eased),
+    z: MathUtils.lerp(start.z, end.z, eased),
 
     rotationX: MathUtils.lerp(
       start.rotationX,
@@ -225,14 +201,9 @@ function getFrame(progress: number) {
   };
 }
 
-function prepareNormalModel(
-  root: Object3D,
-) {
-  const configurablePaint:
-    ConfigurablePaintRecord[] = [];
-
-  const allMaterials:
-    SupportedMaterial[] = [];
+function prepareNormalModel(root: Object3D) {
+  const configurablePaint: ConfigurablePaintRecord[] = [];
+  const allMaterials: SupportedMaterial[] = [];
 
   root.traverse((object) => {
     if (!(object instanceof Mesh)) {
@@ -242,105 +213,85 @@ function prepareNormalModel(
     object.castShadow = true;
     object.receiveShadow = true;
 
-    const sourceMaterials =
-      Array.isArray(object.material)
-        ? object.material
-        : [object.material];
+    const sourceMaterials = Array.isArray(object.material)
+      ? object.material
+      : [object.material];
 
-    const preparedMaterials =
-      sourceMaterials.map(
-        (sourceMaterial): Material => {
-          if (
-            !(
-              sourceMaterial instanceof
-                MeshStandardMaterial ||
-              sourceMaterial instanceof
-                MeshPhysicalMaterial
-            )
-          ) {
-            return sourceMaterial.clone();
-          }
+    const preparedMaterials = sourceMaterials.map(
+      (sourceMaterial): Material => {
+        if (
+          !(
+            sourceMaterial instanceof MeshStandardMaterial ||
+            sourceMaterial instanceof MeshPhysicalMaterial
+          )
+        ) {
+          return sourceMaterial.clone();
+        }
 
-          const material =
-            sourceMaterial.clone();
+        const material = sourceMaterial.clone();
 
-          const combinedName =
-            `${material.name} ${object.name}`.toLowerCase();
+        const combinedName =
+          `${material.name} ${object.name}`.toLowerCase();
 
-          const isGlass =
-            combinedName.includes("glass") ||
-            combinedName.includes("window") ||
-            combinedName.includes(
-              "windshield",
-            );
+        const isGlass =
+          combinedName.includes("glass") ||
+          combinedName.includes("window") ||
+          combinedName.includes("windshield");
 
-          const isTyre =
-            combinedName.includes("tire") ||
-            combinedName.includes("tyre") ||
-            combinedName.includes("rubber");
+        const isTyre =
+          combinedName.includes("tire") ||
+          combinedName.includes("tyre") ||
+          combinedName.includes("rubber");
 
-          const isWheel =
-            combinedName.includes("wheel") ||
-            combinedName.includes("rim") ||
-            combinedName.includes("chrome");
+        const isWheel =
+          combinedName.includes("wheel") ||
+          combinedName.includes("rim") ||
+          combinedName.includes("chrome");
 
-          if (isGlass) {
-            material.transparent = true;
+        if (isGlass) {
+          material.transparent = true;
+          material.opacity = Math.min(
+            material.opacity,
+            0.74,
+          );
+          material.roughness = 0.08;
+        }
 
-            material.opacity = Math.min(
-              material.opacity,
-              0.74,
-            );
+        if (isTyre) {
+          material.metalness = 0;
+          material.roughness = 0.82;
+        }
 
-            material.roughness = 0.08;
-          }
+        if (isWheel) {
+          material.metalness = 0.92;
+          material.roughness = 0.2;
+        }
 
-          if (isTyre) {
-            material.metalness = 0;
-            material.roughness = 0.82;
-          }
+        if (
+          BODY_PAINT_MATERIAL_NAMES.has(material.name)
+        ) {
+          configurablePaint.push({
+            material,
+            originalColor: material.color.clone(),
+            originalMap: material.map ?? null,
+            originalMetalness: material.metalness,
+            originalRoughness: material.roughness,
+            originalTransparent: material.transparent,
+            originalOpacity: material.opacity,
+            originalDepthWrite: material.depthWrite,
+          });
+        }
 
-          if (isWheel) {
-            material.metalness = 0.92;
-            material.roughness = 0.2;
-          }
+        material.needsUpdate = true;
+        allMaterials.push(material);
 
-          const isBodyPaint =
-            BODY_PAINT_MATERIAL_NAMES.has(
-              material.name,
-            );
+        return material;
+      },
+    );
 
-          if (isBodyPaint) {
-            configurablePaint.push({
-              material,
-              originalColor:
-                material.color.clone(),
-              originalMap:
-                material.map ?? null,
-              originalMetalness:
-                material.metalness,
-              originalRoughness:
-                material.roughness,
-              originalTransparent:
-                material.transparent,
-              originalOpacity:
-                material.opacity,
-              originalDepthWrite:
-                material.depthWrite,
-            });
-          }
-
-          material.needsUpdate = true;
-          allMaterials.push(material);
-
-          return material;
-        },
-      );
-
-    object.material =
-      Array.isArray(object.material)
-        ? preparedMaterials
-        : preparedMaterials[0];
+    object.material = Array.isArray(object.material)
+      ? preparedMaterials
+      : preparedMaterials[0];
   });
 
   return {
@@ -349,41 +300,29 @@ function prepareNormalModel(
   };
 }
 
-function normalizeModel(
-  root: Object3D,
-) {
+function normalizeModel(root: Object3D) {
   root.updateMatrixWorld(true);
 
-  const bounds =
-    new Box3().setFromObject(root);
-
+  const bounds = new Box3().setFromObject(root);
   const size = new Vector3();
   const center = new Vector3();
 
   bounds.getSize(size);
   bounds.getCenter(center);
 
-  const horizontalLength = Math.max(
-    size.x,
-    size.z,
-  );
+  const horizontalLength = Math.max(size.x, size.z);
 
   if (
-    !Number.isFinite(
-      horizontalLength,
-    ) ||
+    !Number.isFinite(horizontalLength) ||
     horizontalLength <= 0
   ) {
     return;
   }
 
   const normalizedScale =
-    TARGET_LENGTH /
-    horizontalLength;
+    TARGET_LENGTH / horizontalLength;
 
-  root.scale.setScalar(
-    normalizedScale,
-  );
+  root.scale.setScalar(normalizedScale);
 
   root.position.set(
     -center.x * normalizedScale,
@@ -396,60 +335,42 @@ function normalizeModel(
   const normalizedBounds =
     new Box3().setFromObject(root);
 
-  root.position.y -=
-    normalizedBounds.min.y;
+  root.position.y -= normalizedBounds.min.y;
 }
 
-function createEdgeModel(
-  source: Object3D,
-) {
+function createEdgeModel(source: Object3D) {
   const edgeRoot = new Group();
-
-  const edgeMaterials:
-    LineBasicMaterial[] = [];
+  const edgeMaterials: LineBasicMaterial[] = [];
 
   source.updateMatrixWorld(true);
 
   source.traverse((object) => {
-    if (!(object instanceof Mesh)) {
+    if (!(object instanceof Mesh) || !object.geometry) {
       return;
     }
 
-    if (!object.geometry) {
-      return;
-    }
-
-    const edgeGeometry =
-      new EdgesGeometry(
-        object.geometry,
-        28,
-      );
-
-    const edgeMaterial =
-      new LineBasicMaterial({
-        color: BLUEPRINT_COLOUR,
-        transparent: true,
-        opacity: 0,
-        depthWrite: false,
-        depthTest: true,
-        toneMapped: true,
-      });
-
-    const edgeLines =
-      new LineSegments(
-        edgeGeometry,
-        edgeMaterial,
-      );
-
-    object.updateWorldMatrix(
-      true,
-      false,
+    const edgeGeometry = new EdgesGeometry(
+      object.geometry,
+      28,
     );
 
-    edgeLines.matrix.copy(
-      object.matrixWorld,
+    const edgeMaterial = new LineBasicMaterial({
+      color: BLUEPRINT_COLOUR,
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      depthTest: true,
+      toneMapped: true,
+    });
+
+    const edgeLines = new LineSegments(
+      edgeGeometry,
+      edgeMaterial,
     );
 
+    object.updateWorldMatrix(true, false);
+
+    edgeLines.matrix.copy(object.matrixWorld);
     edgeLines.matrixAutoUpdate = false;
     edgeLines.renderOrder = 20;
     edgeLines.frustumCulled = true;
@@ -470,94 +391,62 @@ export default function RevueltoModel({
   activeChapter,
 }: RevueltoModelProps) {
   const { size } = useThree();
+  const isMobile = size.width <= 768;
 
-  const isMobile =
-    size.width <= 768;
+  const movementGroupRef = useRef<Group>(null);
+  const dragGroupRef = useRef<Group>(null);
 
-  const movementGroupRef =
-    useRef<Group>(null);
+  const previousProgressRef = useRef(0);
+  const blueprintBlendRef = useRef(0);
 
-  const dragGroupRef =
-    useRef<Group>(null);
+  const selectedColourRef = useRef(selectedColour);
+  const targetColourRef = useRef(new Color("#ffffff"));
 
-  const previousProgressRef =
-    useRef(0);
+  const { scene } = useGLTF(MODEL_PATH);
 
-  const blueprintBlendRef =
-    useRef(0);
+  const preparedModels = useMemo(() => {
+    const normalScene = SkeletonUtils.clone(scene);
 
-  const selectedColourRef =
-    useRef(selectedColour);
+    const {
+      configurablePaint,
+      allMaterials,
+    } = prepareNormalModel(normalScene);
 
-  const targetColourRef =
-    useRef(new Color("#ffffff"));
+    normalizeModel(normalScene);
 
-  const { scene } =
-    useGLTF(MODEL_PATH);
+    const edgeModel = createEdgeModel(normalScene);
 
-  const preparedModels =
-    useMemo(() => {
-      const normalScene =
-        SkeletonUtils.clone(scene);
-
-      const {
-        configurablePaint,
-        allMaterials,
-      } = prepareNormalModel(
-        normalScene,
-      );
-
-      normalizeModel(normalScene);
-
-      const edgeModel =
-        createEdgeModel(normalScene);
-
-      return {
-        normalScene,
-        configurablePaint,
-        allMaterials,
-        edgeScene:
-          edgeModel.scene,
-        edgeMaterials:
-          edgeModel.materials,
-      };
-    }, [scene]);
+    return {
+      normalScene,
+      configurablePaint,
+      allMaterials,
+      edgeScene: edgeModel.scene,
+      edgeMaterials: edgeModel.materials,
+    };
+  }, [scene]);
 
   useEffect(() => {
-    selectedColourRef.current =
-      selectedColour;
+    selectedColourRef.current = selectedColour;
 
-    if (
-      selectedColour !==
-      ORIGINAL_CAR_COLOUR
-    ) {
-      targetColourRef.current.set(
-        selectedColour,
-      );
+    if (selectedColour !== ORIGINAL_CAR_COLOUR) {
+      targetColourRef.current.set(selectedColour);
     }
 
     preparedModels.configurablePaint.forEach(
       (record) => {
         const useOriginal =
-          selectedColour ===
-          ORIGINAL_CAR_COLOUR;
+          selectedColour === ORIGINAL_CAR_COLOUR;
 
         if (useOriginal) {
-          record.material.map =
-            record.originalMap;
-
+          record.material.map = record.originalMap;
           record.material.metalness =
             record.originalMetalness;
-
           record.material.roughness =
             record.originalRoughness;
-
           record.material.transparent =
             record.originalTransparent;
-
           record.material.opacity =
             record.originalOpacity;
-
           record.material.depthWrite =
             record.originalDepthWrite;
         } else {
@@ -570,9 +459,8 @@ export default function RevueltoModel({
             MeshPhysicalMaterial
           ) {
             record.material.clearcoat = 1;
-
-            record.material
-              .clearcoatRoughness = 0.06;
+            record.material.clearcoatRoughness =
+              0.06;
           }
         }
 
@@ -585,23 +473,9 @@ export default function RevueltoModel({
   ]);
 
   const springsRef = useRef({
-    x: new SpringValue(
-      FRAMES[0].x,
-      88,
-      16,
-    ),
-
-    y: new SpringValue(
-      FRAMES[0].y,
-      95,
-      17,
-    ),
-
-    z: new SpringValue(
-      FRAMES[0].z,
-      88,
-      16,
-    ),
+    x: new SpringValue(FRAMES[0].x, 88, 16),
+    y: new SpringValue(FRAMES[0].y, 95, 17),
+    z: new SpringValue(FRAMES[0].z, 88, 16),
 
     rotationX: new SpringValue(
       FRAMES[0].rotationX,
@@ -629,71 +503,68 @@ export default function RevueltoModel({
   });
 
   useFrame((state, delta) => {
-    const movementGroup =
-      movementGroupRef.current;
+    const movementGroup = movementGroupRef.current;
+    const dragGroup = dragGroupRef.current;
 
-    const dragGroup =
-      dragGroupRef.current;
-
-    if (
-      !movementGroup ||
-      !dragGroup
-    ) {
+    if (!movementGroup || !dragGroup) {
       return;
     }
 
-    const maximumScroll =
-      Math.max(
-        document.documentElement
-          .scrollHeight -
-          window.innerHeight,
-        1,
-      );
+    const maximumScroll = Math.max(
+      document.documentElement.scrollHeight -
+        window.innerHeight,
+      1,
+    );
 
-    const progress =
-      MathUtils.clamp(
-        window.scrollY /
-          maximumScroll,
-        0,
-        1,
-      );
+    const progress = MathUtils.clamp(
+      window.scrollY / maximumScroll,
+      0,
+      1,
+    );
 
     const progressVelocity =
-      (progress -
-        previousProgressRef.current) /
+      (progress - previousProgressRef.current) /
       Math.max(delta, 0.001);
 
-    previousProgressRef.current =
-      progress;
+    previousProgressRef.current = progress;
 
-    const frame =
-      getFrame(progress);
+    const frame = getFrame(progress);
 
-    const bank =
-      MathUtils.clamp(
-        -progressVelocity * 0.1,
-        -0.2,
-        0.2,
-      );
+    const bank = MathUtils.clamp(
+      -progressVelocity * 0.1,
+      -0.2,
+      0.2,
+    );
 
-    const pitch =
-      MathUtils.clamp(
-        progressVelocity * 0.07,
-        -0.13,
-        0.13,
-      );
+    const pitch = MathUtils.clamp(
+      progressVelocity * 0.07,
+      -0.13,
+      0.13,
+    );
+
+    /*
+     * Desktop uses the original frame positions.
+     *
+     * Mobile moves the Lamborghini down into the lower
+     * half of the screen, underneath the chapter copy.
+     */
+    const mobileXMultiplier = isMobile ? 0.16 : 1;
+
+    const mobileYOffset = isMobile
+      ? activeChapter === 0
+        ? -1.12
+        : -0.88
+      : 0;
 
     springsRef.current.x.setTarget(
-      frame.x,
+      frame.x * mobileXMultiplier,
     );
 
     springsRef.current.y.setTarget(
-      frame.y,
+      frame.y + mobileYOffset,
     );
 
-    springsRef.current.z.setTarget(
-      frame.z,
-    );
+    springsRef.current.z.setTarget(frame.z);
 
     springsRef.current.rotationX.setTarget(
       frame.rotationX + pitch,
@@ -712,87 +583,61 @@ export default function RevueltoModel({
     );
 
     movementGroup.position.set(
-      springsRef.current.x.update(
-        delta,
-      ),
-      springsRef.current.y.update(
-        delta,
-      ),
-      springsRef.current.z.update(
-        delta,
-      ),
+      springsRef.current.x.update(delta),
+      springsRef.current.y.update(delta),
+      springsRef.current.z.update(delta),
     );
 
     movementGroup.rotation.set(
-      springsRef.current.rotationX.update(
-        delta,
-      ),
-      springsRef.current.rotationY.update(
-        delta,
-      ),
-      springsRef.current.rotationZ.update(
-        delta,
-      ),
+      springsRef.current.rotationX.update(delta),
+      springsRef.current.rotationY.update(delta),
+      springsRef.current.rotationZ.update(delta),
     );
 
     const modelScale =
-      springsRef.current.scale.update(
-        delta,
-      );
+      springsRef.current.scale.update(delta);
 
     /*
-     * Desktop remains unchanged.
-     * Mobile car is 28% smaller.
+     * Only mobile is reduced.
+     * Desktop remains completely unchanged.
      */
-    const responsiveScale =
-      isMobile
-        ? modelScale * 0.72
-        : modelScale;
+    const responsiveScale = isMobile
+      ? modelScale * 0.58
+      : modelScale;
 
     movementGroup.scale.setScalar(
       responsiveScale,
     );
 
-    if (
-      !motionRef.current.isDragging
-    ) {
+    if (!motionRef.current.isDragging) {
       motionRef.current.dragRotation +=
-        motionRef.current.dragVelocity *
-        delta;
+        motionRef.current.dragVelocity * delta;
 
       motionRef.current.dragVelocity *=
-        Math.pow(
-          0.018,
-          delta,
-        );
+        Math.pow(0.018, delta);
 
       if (
         Math.abs(
-          motionRef.current
-            .dragVelocity,
+          motionRef.current.dragVelocity,
         ) < 0.0005
       ) {
-        motionRef.current.dragVelocity =
-          0;
+        motionRef.current.dragVelocity = 0;
       }
     }
 
     dragGroup.rotation.y =
       motionRef.current.dragRotation;
 
-    dragGroup.rotation.x =
-      MathUtils.damp(
-        dragGroup.rotation.x,
-        motionRef.current.pointerY *
-          0.035,
-        4,
-        delta,
-      );
+    dragGroup.rotation.x = MathUtils.damp(
+      dragGroup.rotation.x,
+      motionRef.current.pointerY * 0.035,
+      4,
+      delta,
+    );
 
     dragGroup.position.y =
       Math.sin(
-        state.clock.elapsedTime *
-          0.7,
+        state.clock.elapsedTime * 0.7,
       ) * 0.006;
 
     const useOriginalColour =
@@ -835,15 +680,11 @@ export default function RevueltoModel({
 
     const insideBlueprintRange =
       activeChapter === 1 ||
-      (
-        progress >= 0.13 &&
-        progress <= 0.47
-      );
+      (progress >= 0.13 && progress <= 0.47);
 
     const blueprintTarget =
       insideBlueprintRange
-        ? blueprintFadeIn *
-          blueprintFadeOut
+        ? blueprintFadeIn * blueprintFadeOut
         : 0;
 
     blueprintBlendRef.current =
@@ -862,12 +703,11 @@ export default function RevueltoModel({
         material.transparent =
           blueprintBlend > 0.005;
 
-        material.opacity =
-          MathUtils.lerp(
-            1,
-            0.42,
-            blueprintBlend,
-          );
+        material.opacity = MathUtils.lerp(
+          1,
+          0.42,
+          blueprintBlend,
+        );
 
         material.depthWrite =
           blueprintBlend < 0.75;
@@ -906,16 +746,12 @@ export default function RevueltoModel({
     >
       <group ref={dragGroupRef}>
         <primitive
-          object={
-            preparedModels.normalScene
-          }
+          object={preparedModels.normalScene}
           dispose={null}
         />
 
         <primitive
-          object={
-            preparedModels.edgeScene
-          }
+          object={preparedModels.edgeScene}
           dispose={null}
         />
       </group>

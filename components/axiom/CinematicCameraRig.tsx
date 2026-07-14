@@ -130,18 +130,13 @@ const CAMERA_FRAMES: CameraFrame[] = [
 ];
 
 function smoothstep(value: number) {
-  const safeValue =
-    MathUtils.clamp(
-      value,
-      0,
-      1,
-    );
-
-  return (
-    safeValue *
-    safeValue *
-    (3 - 2 * safeValue)
+  const safeValue = MathUtils.clamp(
+    value,
+    0,
+    1,
   );
+
+  return safeValue * safeValue * (3 - 2 * safeValue);
 }
 
 function interpolateCameraFrame(
@@ -159,11 +154,8 @@ function interpolateCameraFrame(
     index < CAMERA_FRAMES.length - 1;
     index += 1
   ) {
-    const current =
-      CAMERA_FRAMES[index];
-
-    const next =
-      CAMERA_FRAMES[index + 1];
+    const current = CAMERA_FRAMES[index];
+    const next = CAMERA_FRAMES[index + 1];
 
     if (
       progress >= current.progress &&
@@ -176,22 +168,19 @@ function interpolateCameraFrame(
   }
 
   const range =
-    end.progress -
-    start.progress;
+    end.progress - start.progress;
 
   const localProgress =
     range === 0
       ? 0
       : MathUtils.clamp(
-          (progress -
-            start.progress) /
+          (progress - start.progress) /
             range,
           0,
           1,
         );
 
-  const eased =
-    smoothstep(localProgress);
+  const eased = smoothstep(localProgress);
 
   return {
     position: {
@@ -251,65 +240,49 @@ function interpolateCameraFrame(
 export default function CinematicCameraRig({
   motionRef,
 }: CinematicCameraRigProps) {
-  const {
-    camera,
-    size,
-  } = useThree();
+  const { camera, size } = useThree();
 
-  const isMobile =
-    size.width <= 768;
+  const isMobile = size.width <= 768;
 
-  const previousProgressRef =
-    useRef(0);
+  const previousProgressRef = useRef(0);
 
-  const lookTargetRef =
-    useRef(
-      new Vector3(
-        0.55,
-        -0.18,
-        0,
-      ),
-    );
+  const lookTargetRef = useRef(
+    new Vector3(0.55, -0.18, 0),
+  );
 
   const springsRef = useRef({
     positionX: new SpringValue(
-      CAMERA_FRAMES[0]
-        .position.x,
+      CAMERA_FRAMES[0].position.x,
       62,
       14,
     ),
 
     positionY: new SpringValue(
-      CAMERA_FRAMES[0]
-        .position.y,
+      CAMERA_FRAMES[0].position.y,
       65,
       15,
     ),
 
     positionZ: new SpringValue(
-      CAMERA_FRAMES[0]
-        .position.z,
+      CAMERA_FRAMES[0].position.z,
       62,
       14,
     ),
 
     targetX: new SpringValue(
-      CAMERA_FRAMES[0]
-        .target.x,
+      CAMERA_FRAMES[0].target.x,
       72,
       16,
     ),
 
     targetY: new SpringValue(
-      CAMERA_FRAMES[0]
-        .target.y,
+      CAMERA_FRAMES[0].target.y,
       72,
       16,
     ),
 
     targetZ: new SpringValue(
-      CAMERA_FRAMES[0]
-        .target.z,
+      CAMERA_FRAMES[0].target.z,
       72,
       16,
     ),
@@ -328,34 +301,26 @@ export default function CinematicCameraRig({
   });
 
   useFrame((state, delta) => {
-    const maximumScroll =
-      Math.max(
-        document.documentElement
-          .scrollHeight -
-          window.innerHeight,
-        1,
-      );
+    const maximumScroll = Math.max(
+      document.documentElement.scrollHeight -
+        window.innerHeight,
+      1,
+    );
 
-    const progress =
-      MathUtils.clamp(
-        window.scrollY /
-          maximumScroll,
-        0,
-        1,
-      );
+    const progress = MathUtils.clamp(
+      window.scrollY / maximumScroll,
+      0,
+      1,
+    );
 
     const scrollVelocity =
-      (progress -
-        previousProgressRef.current) /
+      (progress - previousProgressRef.current) /
       Math.max(delta, 0.001);
 
-    previousProgressRef.current =
-      progress;
+    previousProgressRef.current = progress;
 
     const frame =
-      interpolateCameraFrame(
-        progress,
-      );
+      interpolateCameraFrame(progress);
 
     const interactionStrength =
       motionRef.current.isDragging
@@ -370,18 +335,14 @@ export default function CinematicCameraRig({
       motionRef.current.pointerY *
       interactionStrength;
 
-    const parallaxX =
-      pointerX * 0.09;
+    const parallaxX = pointerX * 0.09;
+    const parallaxY = pointerY * 0.045;
 
-    const parallaxY =
-      pointerY * 0.045;
-
-    const velocityRoll =
-      MathUtils.clamp(
-        -scrollVelocity * 0.014,
-        -0.017,
-        0.017,
-      );
+    const velocityRoll = MathUtils.clamp(
+      -scrollVelocity * 0.014,
+      -0.017,
+      0.017,
+    );
 
     const breathingStrength =
       motionRef.current.isDragging
@@ -390,145 +351,122 @@ export default function CinematicCameraRig({
 
     const breathing =
       Math.sin(
-        state.clock.elapsedTime *
-          0.45,
+        state.clock.elapsedTime * 0.45,
       ) * breathingStrength;
 
     /*
-     * Desktop values stay exactly 1 / 0.
-     * Mobile camera moves farther away and widens.
+     * Mobile camera is centred and moved farther back.
+     * Desktop values remain unchanged.
      */
     const mobileDistance =
-      isMobile ? 1.22 : 1;
+      isMobile ? 1.42 : 1;
 
-    const mobileHeightOffset =
-      isMobile ? 0.24 : 0;
+    const mobileCameraX =
+      isMobile ? 0.15 : frame.position.x;
 
-    const mobileTargetYOffset =
-      isMobile ? -0.08 : 0;
+    const mobileCameraY =
+      isMobile ? 1.35 : frame.position.y;
+
+    const mobileTargetX =
+      isMobile ? 0 : frame.target.x;
+
+    const mobileTargetY =
+      isMobile ? -1.45 : frame.target.y;
 
     const mobileFovOffset =
-      isMobile ? 5 : 0;
+      isMobile ? 8 : 0;
 
-    springsRef.current
-      .positionX
-      .setTarget(
-        frame.position.x *
-          mobileDistance +
-          parallaxX,
-      );
+    springsRef.current.positionX.setTarget(
+      isMobile
+        ? mobileCameraX + parallaxX * 0.25
+        : frame.position.x + parallaxX,
+    );
 
-    springsRef.current
-      .positionY
-      .setTarget(
-        frame.position.y *
-          mobileDistance +
-          mobileHeightOffset +
-          parallaxY,
-      );
+    springsRef.current.positionY.setTarget(
+      isMobile
+        ? mobileCameraY + parallaxY * 0.2
+        : frame.position.y + parallaxY,
+    );
 
-    springsRef.current
-      .positionZ
-      .setTarget(
-        frame.position.z *
-          mobileDistance +
-          breathing,
-      );
+    springsRef.current.positionZ.setTarget(
+      frame.position.z *
+        mobileDistance +
+        breathing,
+    );
 
-    springsRef.current
-      .targetX
-      .setTarget(
-        frame.target.x +
-          pointerX * 0.025,
-      );
+    springsRef.current.targetX.setTarget(
+      mobileTargetX +
+        pointerX *
+          (isMobile ? 0.005 : 0.025),
+    );
 
-    springsRef.current
-      .targetY
-      .setTarget(
-        frame.target.y +
-          mobileTargetYOffset +
-          pointerY * 0.014,
-      );
+    springsRef.current.targetY.setTarget(
+      mobileTargetY +
+        pointerY *
+          (isMobile ? 0.004 : 0.014),
+    );
 
-    springsRef.current
-      .targetZ
-      .setTarget(
-        frame.target.z,
-      );
+    springsRef.current.targetZ.setTarget(
+      frame.target.z,
+    );
 
     const lensBreathing =
       Math.sin(
-        state.clock.elapsedTime *
-          0.38,
+        state.clock.elapsedTime * 0.38,
       ) *
-      (
-        motionRef.current
-          .isDragging
-          ? 0.01
-          : 0.08
-      );
+      (motionRef.current.isDragging
+        ? 0.01
+        : 0.08);
 
-    springsRef.current
-      .fov
-      .setTarget(
-        frame.fov +
-          mobileFovOffset +
-          lensBreathing,
-      );
+    springsRef.current.fov.setTarget(
+      frame.fov +
+        mobileFovOffset +
+        lensBreathing,
+    );
 
-    springsRef.current
-      .roll
-      .setTarget(
-        frame.roll +
-          velocityRoll,
-      );
+    springsRef.current.roll.setTarget(
+      isMobile
+        ? 0
+        : frame.roll + velocityRoll,
+    );
 
     camera.position.set(
-      springsRef.current
-        .positionX
-        .update(delta),
-
-      springsRef.current
-        .positionY
-        .update(delta),
-
-      springsRef.current
-        .positionZ
-        .update(delta),
+      springsRef.current.positionX.update(
+        delta,
+      ),
+      springsRef.current.positionY.update(
+        delta,
+      ),
+      springsRef.current.positionZ.update(
+        delta,
+      ),
     );
 
     lookTargetRef.current.set(
-      springsRef.current
-        .targetX
-        .update(delta),
-
-      springsRef.current
-        .targetY
-        .update(delta),
-
-      springsRef.current
-        .targetZ
-        .update(delta),
+      springsRef.current.targetX.update(
+        delta,
+      ),
+      springsRef.current.targetY.update(
+        delta,
+      ),
+      springsRef.current.targetZ.update(
+        delta,
+      ),
     );
 
-    camera.lookAt(
-      lookTargetRef.current,
-    );
+    camera.lookAt(lookTargetRef.current);
 
     camera.rotateZ(
-      springsRef.current
-        .roll
-        .update(delta),
+      springsRef.current.roll.update(delta),
     );
 
     if (
-      camera instanceof
-      PerspectiveCamera
+      camera instanceof PerspectiveCamera
     ) {
       camera.fov =
-        springsRef.current
-          .fov
-          .update(delta);
+        springsRef.current.fov.update(
+          delta,
+        );
 
       camera.updateProjectionMatrix();
     }
