@@ -1819,69 +1819,78 @@
 }
 
 /* =====================================================
-   FINAL MOBILE CONTENT SAFETY
+   MOBILE: REDUCED CHAPTER GAP
 ===================================================== */
 
 @media (max-width: 768px) {
   .chapter {
     position: relative;
-    height: 100svh;
-    min-height: 100svh;
+
+    height: auto;
+    min-height: 82svh;
+
+    align-items: flex-start;
+    justify-content: flex-start;
+
     overflow: hidden;
-    padding: 94px 34px 78px 17px;
+
+    padding:
+      92px
+      32px
+      38px
+      16px;
   }
 
   .chapterCopy,
   .chapterRight .chapterCopy {
     position: relative;
     z-index: 12;
+
     width: 100%;
-    max-width: 325px;
+    max-width: 320px;
     min-height: 0;
+
     text-align: left;
     pointer-events: auto;
   }
 
   .chapter h1 {
-    position: relative;
-    z-index: 13;
-    max-width: 310px;
+    max-width: 305px;
   }
 
-  .description,
-  .eyebrow,
+  .description {
+    margin-top: 11px;
+  }
+
   .motionDetails,
   .colours,
   .metrics {
-    position: relative;
-    z-index: 13;
+    margin-top: 12px;
   }
 
   .scrollPrompt,
   .configureButton {
-    position: absolute;
-    right: 34px;
-    bottom: 18px;
-    left: 17px;
-    z-index: 14;
-  }
+    position: relative;
 
-  .motionDetails {
-    max-width: 310px;
-  }
+    right: auto;
+    bottom: auto;
+    left: auto;
 
-  .motionDetails ul {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .metrics {
-    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 18px;
+    padding: 10px 0;
   }
 }
 
 @media (max-width: 420px) {
   .chapter {
-    padding: 90px 30px 72px 15px;
+    min-height: 78svh;
+
+    padding:
+      88px
+      28px
+      32px
+      15px;
   }
 
   .chapterCopy,
@@ -1891,12 +1900,5 @@
 
   .chapter h1 {
     max-width: 290px;
-  }
-
-  .scrollPrompt,
-  .configureButton {
-    right: 30px;
-    bottom: 16px;
-    left: 15px;
   }
 }
