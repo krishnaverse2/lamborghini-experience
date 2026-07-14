@@ -508,59 +508,6 @@
   }
 }
 
-@media (max-width: 900px) {
-  .header {
-    grid-template-columns: 1fr auto;
-    padding: 21px 22px;
-  }
-
-  .headerCenter {
-    display: none;
-  }
-
-  .chapter {
-    min-height: 108svh;
-    align-items: flex-end;
-    justify-content: flex-start;
-    padding: 110px 23px 155px;
-  }
-
-  .chapterCopy,
-  .chapterRight .chapterCopy {
-    width: min(100%, 620px);
-    text-align: left;
-  }
-
-  .chapterRight .eyebrow {
-    justify-content: flex-start;
-  }
-
-  .chapterRight .description {
-    margin-left: 0;
-  }
-
-  .chapter h1 {
-    font-size: clamp(62px, 15vw, 108px);
-  }
-
-  .metrics {
-    justify-content: flex-start;
-  }
-
-  .vignette {
-    background: linear-gradient(
-      180deg,
-      rgba(7, 7, 7, 0.15),
-      transparent 40%,
-      rgba(7, 7, 7, 0.9)
-    );
-  }
-
-  .dragHint {
-    right: 22px;
-    bottom: 24px;
-  }
-}
 
 @media (max-width: 620px) {
   .headerRight,
@@ -1192,5 +1139,280 @@
     right: 16px;
     bottom: 30px;
     left: 16px;
+  }
+}
+
+/* =====================================================
+   RESPONSIVE LAYOUT
+   Desktop unchanged
+   Mobile: text first, full car below
+===================================================== */
+
+@media (max-width: 900px) {
+  .header {
+    grid-template-columns: 1fr auto;
+    padding: 21px 22px;
+  }
+
+  .headerCenter {
+    display: none;
+  }
+
+  .chapter {
+    min-height: 108svh;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 110px 23px 155px;
+  }
+
+  .chapterCopy,
+  .chapterRight .chapterCopy {
+    width: min(100%, 620px);
+    text-align: left;
+  }
+
+  .chapterRight .eyebrow {
+    justify-content: flex-start;
+  }
+
+  .chapterRight .description {
+    margin-left: 0;
+  }
+
+  .chapter h1 {
+    font-size: clamp(62px, 15vw, 108px);
+  }
+
+  .metrics {
+    justify-content: flex-start;
+  }
+
+  .dragHint {
+    right: 22px;
+    bottom: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .canvasLayer {
+    height: 100svh;
+  }
+
+  .header {
+    min-height: 68px;
+    grid-template-columns: 1fr;
+    padding: 13px 17px;
+    background: linear-gradient(
+      180deg,
+      rgba(7, 7, 7, 0.96),
+      rgba(7, 7, 7, 0)
+    );
+  }
+
+  .logo {
+    gap: 2px;
+  }
+
+  .logo strong {
+    font-size: 17px;
+    letter-spacing: 0.09em;
+  }
+
+  .logo span {
+    font-size: 6px;
+    letter-spacing: 0.14em;
+  }
+
+  .headerCenter,
+  .headerRight,
+  .progress,
+  .dragHint {
+    display: none;
+  }
+
+  .chapter {
+    position: relative;
+    min-height: 100svh;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 88px 17px 92px;
+  }
+
+  .chapterCopy,
+  .chapterRight .chapterCopy {
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .chapterRight .eyebrow {
+    justify-content: flex-start;
+  }
+
+  .chapterRight .description {
+    margin-left: 0;
+  }
+
+  .eyebrow {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .eyebrow span {
+    font-size: 14px;
+  }
+
+  .eyebrow i {
+    width: 25px;
+  }
+
+  .eyebrow p {
+    font-size: 6px;
+    letter-spacing: 0.17em;
+  }
+
+  .chapter h1 {
+    width: min(100%, 325px);
+    max-width: 325px;
+    font-size: clamp(39px, 11.8vw, 53px);
+    line-height: 0.86;
+    letter-spacing: -0.025em;
+  }
+
+  .description {
+    width: min(100%, 305px);
+    max-width: 305px;
+    margin-top: 13px;
+    font-size: 9px;
+    line-height: 1.55;
+  }
+
+  .chapterCopy {
+    min-height: 205px;
+  }
+
+  .scrollPrompt,
+  .configureButton {
+    position: absolute;
+    right: 17px;
+    bottom: 20px;
+    left: 17px;
+    width: auto;
+    margin: 0;
+    padding: 11px 0;
+    font-size: 7px;
+    letter-spacing: 0.15em;
+  }
+
+  .scrollPrompt strong,
+  .configureButton span {
+    font-size: 14px;
+  }
+
+  .motionDetails {
+    max-width: 330px;
+    margin-top: 13px;
+  }
+
+  .motionDetails code {
+    padding: 9px;
+    font-size: 8px;
+  }
+
+  .motionDetails ul {
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 9px;
+    margin-top: 9px;
+    font-size: 6px;
+  }
+
+  .colours {
+    max-width: 345px;
+    gap: 9px;
+    margin-top: 14px;
+  }
+
+  .colours button {
+    gap: 5px;
+    font-size: 6px;
+  }
+
+  .colours button > span {
+    width: 31px;
+    height: 16px;
+  }
+
+  .metrics {
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 14px;
+  }
+
+  .metrics strong {
+    font-size: 26px;
+  }
+
+  .metrics span {
+    font-size: 6px;
+  }
+
+  .vignette {
+    background: linear-gradient(
+      180deg,
+      rgba(7, 7, 7, 0.74) 0%,
+      rgba(7, 7, 7, 0.24) 29%,
+      transparent 43%,
+      transparent 84%,
+      rgba(7, 7, 7, 0.42) 100%
+    );
+  }
+
+  .blueprintGrid {
+    background-size:
+      48px 48px,
+      48px 48px,
+      100% 100%;
+  }
+
+  .blueprintGrid::before {
+    top: 42%;
+    left: -22%;
+    width: 250px;
+    height: 250px;
+  }
+
+  .blueprintGrid::after {
+    right: -18%;
+    bottom: 10%;
+    width: 190px;
+    height: 190px;
+  }
+
+  .marquee {
+    padding: 18px 0;
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 420px) {
+  .chapter {
+    padding: 84px 15px 86px;
+  }
+
+  .chapter h1 {
+    max-width: 295px;
+    font-size: clamp(37px, 11.5vw, 49px);
+  }
+
+  .description {
+    max-width: 285px;
+    font-size: 8.5px;
+  }
+
+  .scrollPrompt,
+  .configureButton {
+    right: 15px;
+    bottom: 18px;
+    left: 15px;
   }
 }

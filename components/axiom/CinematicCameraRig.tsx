@@ -388,31 +388,32 @@ export default function CinematicCameraRig({
      * - looks toward the lower half where the car is,
      * - uses a wider field of view.
      */
-    const cameraX = isMobile
-      ? 0.3
-      : frame.position.x;
+const cameraX = isMobile
+  ? 0.25
+  : frame.position.x;
 
- const cameraY = isMobile
-  ? 1.45
+const cameraY = isMobile
+  ? 1.65
   : frame.position.y;
 
-    const cameraZ = isMobile
-      ? frame.position.z * 1.2
-      : frame.position.z;
+const cameraZ = isMobile
+  ? 10.6
+  : frame.position.z;
 
-    const targetX = isMobile
-      ? 0
-      : frame.target.x;
+const targetX = isMobile
+  ? 0
+  : frame.target.x;
 
-  const targetY = isMobile
-  ? -0.28
+const targetY = isMobile
+  ? -0.5
   : frame.target.y;
 
-    const targetZ =
-      frame.target.z;
+const targetZ = isMobile
+  ? 0
+  : frame.target.z;
 
-   const fovOffset = isMobile
-  ? 6.5
+const fovOffset = isMobile
+  ? 7.5
   : 0;
 
     springsRef.current.positionX.setTarget(
