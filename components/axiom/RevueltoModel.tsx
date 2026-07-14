@@ -557,7 +557,7 @@ const mobileXMultiplier = isMobile ? 0.03 : 1;
 
 const mobileYOffset = isMobile
   ? activeChapter === 0
-    ? 0.65
+    ? 0.80 // Chapter 1: move car upward to center
     : activeChapter === 1
       ? 0.58
       : activeChapter === 2
