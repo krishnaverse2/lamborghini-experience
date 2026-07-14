@@ -382,33 +382,33 @@ export default function CinematicCameraRig({
      * - positions the car below the chapter text,
      * - uses only a slightly wider field of view.
      */
-    const cameraX = isMobile
-      ? 0.15
-      : frame.position.x;
+   const cameraX = isMobile
+  ? 0.15
+  : frame.position.x;
 
-    const cameraY = isMobile
-      ? 1.3
-      : frame.position.y;
+const cameraY = isMobile
+  ? 1.15
+  : frame.position.y;
 
-    const cameraZ = isMobile
-      ? 8.3
-      : frame.position.z;
+const cameraZ = isMobile
+  ? 7.2
+  : frame.position.z;
 
-    const targetX = isMobile
-      ? 0
-      : frame.target.x;
+const targetX = isMobile
+  ? 0
+  : frame.target.x;
 
-    const targetY = isMobile
-      ? 0.05
-      : frame.target.y;
+const targetY = isMobile
+  ? 0.48
+  : frame.target.y;
 
-    const targetZ = isMobile
-      ? 0
-      : frame.target.z;
+const targetZ = isMobile
+  ? 0
+  : frame.target.z;
 
-    const fovOffset = isMobile
-      ? 2
-      : 0;
+const fovOffset = isMobile
+  ? -1.5
+  : 0;
 
     springsRef.current.positionX.setTarget(
       cameraX +
