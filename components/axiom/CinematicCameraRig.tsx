@@ -2,10 +2,7 @@
 
 import { SpringValue } from "@/components/axiom/spring";
 import type { MotionRef } from "@/components/axiom/types";
-import {
-  useFrame,
-  useThree,
-} from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useRef } from "react";
 import {
   MathUtils,
@@ -248,10 +245,7 @@ function interpolateCameraFrame(
 export default function CinematicCameraRig({
   motionRef,
 }: CinematicCameraRigProps) {
-  const {
-    camera,
-    size,
-  } = useThree();
+  const { camera, size } = useThree();
 
   const isMobile =
     size.width <= 768;
@@ -380,41 +374,41 @@ export default function CinematicCameraRig({
       ) * breathingStrength;
 
     /*
-     * Desktop uses original camera positions.
+     * Desktop uses the original cinematic camera frames.
      *
      * Mobile camera:
-     * - moves farther away,
-     * - stays centred,
-     * - looks toward the lower half where the car is,
-     * - uses a wider field of view.
+     * - moves closer so the car fills the viewport,
+     * - keeps the car horizontally centred,
+     * - positions the car below the chapter text,
+     * - uses only a slightly wider field of view.
      */
-const cameraX = isMobile
-  ? 0.25
-  : frame.position.x;
+    const cameraX = isMobile
+      ? 0.15
+      : frame.position.x;
 
-const cameraY = isMobile
-  ? 1.65
-  : frame.position.y;
+    const cameraY = isMobile
+      ? 1.3
+      : frame.position.y;
 
-const cameraZ = isMobile
-  ? 10.6
-  : frame.position.z;
+    const cameraZ = isMobile
+      ? 8.3
+      : frame.position.z;
 
-const targetX = isMobile
-  ? 0
-  : frame.target.x;
+    const targetX = isMobile
+      ? 0
+      : frame.target.x;
 
-const targetY = isMobile
-  ? -0.5
-  : frame.target.y;
+    const targetY = isMobile
+      ? 0.05
+      : frame.target.y;
 
-const targetZ = isMobile
-  ? 0
-  : frame.target.z;
+    const targetZ = isMobile
+      ? 0
+      : frame.target.z;
 
-const fovOffset = isMobile
-  ? 7.5
-  : 0;
+    const fovOffset = isMobile
+      ? 2
+      : 0;
 
     springsRef.current.positionX.setTarget(
       cameraX +
