@@ -262,25 +262,47 @@ export default function AxiomExperience() {
         </p>
       </div>
 
-      <div className={styles.progress}>
-        <span>
-          {(activeChapter + 1)
-            .toString()
-            .padStart(2, "0")}
-        </span>
+      <div
+  className={styles.progress}
+  aria-label={`Chapter ${activeChapter + 1} of ${
+    chapters.length
+  }`}
+>
+  <div className={styles.desktopProgress}>
+    <span>
+      {(activeChapter + 1)
+        .toString()
+        .padStart(2, "0")}
+    </span>
 
-        <div>
-          <i
-            style={{
-              transform: `scaleY(${
-                (activeChapter + 1) / chapters.length
-              })`,
-            }}
-          />
-        </div>
+    <div>
+      <i
+        style={{
+          transform: `scaleY(${
+            (activeChapter + 1) / chapters.length
+          })`,
+        }}
+      />
+    </div>
 
-        <span>05</span>
-      </div>
+    <span>05</span>
+  </div>
+
+  <div className={styles.mobileProgress}>
+    {chapters.map((chapter, index) => (
+      <a
+        key={chapter.number}
+        href={`#chapter-${index + 1}`}
+        aria-label={`Go to chapter ${chapter.number}`}
+        className={`${styles.progressDot} ${
+          activeChapter === index
+            ? styles.progressDotActive
+            : ""
+        }`}
+      />
+    ))}
+  </div>
+</div>
 
       <div className={styles.chapters}>
         {chapters.map((chapter, index) => (
