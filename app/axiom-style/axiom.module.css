@@ -1817,3 +1817,86 @@
     right: 7px;
   }
 }
+
+/* =====================================================
+   FINAL MOBILE CONTENT SAFETY
+===================================================== */
+
+@media (max-width: 768px) {
+  .chapter {
+    position: relative;
+    height: 100svh;
+    min-height: 100svh;
+    overflow: hidden;
+    padding: 94px 34px 78px 17px;
+  }
+
+  .chapterCopy,
+  .chapterRight .chapterCopy {
+    position: relative;
+    z-index: 12;
+    width: 100%;
+    max-width: 325px;
+    min-height: 0;
+    text-align: left;
+    pointer-events: auto;
+  }
+
+  .chapter h1 {
+    position: relative;
+    z-index: 13;
+    max-width: 310px;
+  }
+
+  .description,
+  .eyebrow,
+  .motionDetails,
+  .colours,
+  .metrics {
+    position: relative;
+    z-index: 13;
+  }
+
+  .scrollPrompt,
+  .configureButton {
+    position: absolute;
+    right: 34px;
+    bottom: 18px;
+    left: 17px;
+    z-index: 14;
+  }
+
+  .motionDetails {
+    max-width: 310px;
+  }
+
+  .motionDetails ul {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .metrics {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 420px) {
+  .chapter {
+    padding: 90px 30px 72px 15px;
+  }
+
+  .chapterCopy,
+  .chapterRight .chapterCopy {
+    max-width: 295px;
+  }
+
+  .chapter h1 {
+    max-width: 290px;
+  }
+
+  .scrollPrompt,
+  .configureButton {
+    right: 30px;
+    bottom: 16px;
+    left: 15px;
+  }
+}

@@ -553,12 +553,23 @@ export default function RevueltoModel({
  * - Car appears below the chapter text.
  * - Car stays large enough to be clearly visible.
  */
-const mobileXMultiplier = isMobile ? 0.05 : 1;
+const mobileXMultiplier = isMobile ? 0.03 : 1;
 
+/*
+ * Negative Y moves the vehicle downward on mobile.
+ * Every chapter uses a controlled position so the car
+ * stays below the chapter text.
+ */
 const mobileYOffset = isMobile
   ? activeChapter === 0
-    ? 0.48
-    : 0.38
+    ? -0.18
+    : activeChapter === 1
+      ? -0.28
+      : activeChapter === 2
+        ? -0.24
+        : activeChapter === 3
+          ? -0.3
+          : -0.22
   : 0;
 
 springsRef.current.x.setTarget(
@@ -607,7 +618,7 @@ const modelScale =
  * Desktop remains 100% unchanged.
  */
 const responsiveScale = isMobile
-  ? modelScale * 0.6
+  ? modelScale * 0.56
   : modelScale;
 
 movementGroup.scale.setScalar(
