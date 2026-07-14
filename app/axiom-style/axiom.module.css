@@ -652,3 +652,125 @@
 .blueprintGridVisible {
   opacity: 1;
 }
+
+/* =====================================================
+   MOBILE HERO SPACING + TYPOGRAPHY FIX
+   Desktop remains unchanged
+===================================================== */
+
+@media (max-width: 620px) {
+  /* Smaller fixed header */
+  .header {
+    min-height: 86px;
+    padding: 18px 20px;
+  }
+
+  .logo {
+    gap: 3px;
+  }
+
+  .logo strong {
+    font-size: 18px;
+    letter-spacing: 0.1em;
+  }
+
+  .logo span {
+    font-size: 6px;
+    letter-spacing: 0.18em;
+  }
+
+  /* Hide unnecessary right-side header content */
+  .headerCenter,
+  .headerRight {
+    display: none;
+  }
+
+  /*
+   * Reduce the large empty space before the hero copy.
+   * The content begins higher on mobile.
+   */
+  .chapter {
+    min-height: 100svh;
+    align-items: flex-end;
+    padding:
+      90px
+      20px
+      105px;
+  }
+
+  /*
+   * First chapter needs slightly less bottom padding
+   * so the heading sits higher.
+   */
+  .chapter:first-child {
+    padding-bottom: 82px;
+  }
+
+  .chapterCopy,
+  .chapterRight .chapterCopy {
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .chapterRight .eyebrow {
+    justify-content: flex-start;
+  }
+
+  .eyebrow {
+    gap: 9px;
+    margin-bottom: 14px;
+  }
+
+  .eyebrow span {
+    font-size: 15px;
+  }
+
+  .eyebrow i {
+    width: 28px;
+  }
+
+  .eyebrow p {
+    font-size: 7px;
+    letter-spacing: 0.2em;
+  }
+
+  /*
+   * Smaller BORN BEYOND CONVENTION heading.
+   */
+  .chapter h1 {
+    max-width: 340px;
+    font-size: clamp(48px, 14vw, 66px);
+    letter-spacing: -0.025em;
+    line-height: 0.84;
+  }
+
+  .description {
+    max-width: 330px;
+    margin-top: 20px;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
+  /*
+   * Smaller gap above and below Scroll to Ignite.
+   */
+  .scrollPrompt,
+  .configureButton {
+    width: 100%;
+    margin-top: 24px;
+    padding: 14px 0;
+    font-size: 7px;
+    letter-spacing: 0.18em;
+  }
+
+  .scrollPrompt strong,
+  .configureButton span {
+    font-size: 15px;
+  }
+
+  .dragHint,
+  .progress {
+    display: none;
+  }
+}
