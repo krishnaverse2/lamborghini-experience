@@ -559,11 +559,11 @@ const mobileYOffset = isMobile
   ? activeChapter === 0
     ? 0.80 // Chapter 1: move car upward to center
     : activeChapter === 1
-      ? 0.58
+      ? 0.80
       : activeChapter === 2
-        ? 0.62
+        ? 0.80
         : activeChapter === 3
-          ? 0.55
+          ? 0.80
           : 0.6
   : 0;
 
