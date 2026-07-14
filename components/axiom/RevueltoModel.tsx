@@ -542,72 +542,77 @@ export default function RevueltoModel({
       0.13,
     );
 
-    /*
-     * Desktop uses the original frame positions.
-     *
-     * Mobile moves the Lamborghini down into the lower
-     * half of the screen, underneath the chapter copy.
-     */
-    const mobileXMultiplier = isMobile ? 0.16 : 1;
+   /*
+ * Responsive vehicle placement.
+ *
+ * Desktop:
+ * - Original position and scale remain unchanged.
+ *
+ * Mobile:
+ * - Car is centred horizontally.
+ * - Car appears below the chapter text.
+ * - Car stays large enough to be clearly visible.
+ */
+const mobileXMultiplier = isMobile ? 0.25 : 1;
 
-    const mobileYOffset = isMobile
-      ? activeChapter === 0
-        ? -1.12
-        : -0.88
-      : 0;
+const mobileYOffset = isMobile
+  ? activeChapter === 0
+    ? -0.12
+    : -0.08
+  : 0;
 
-    springsRef.current.x.setTarget(
-      frame.x * mobileXMultiplier,
-    );
+springsRef.current.x.setTarget(
+  frame.x * mobileXMultiplier,
+);
 
-    springsRef.current.y.setTarget(
-      frame.y + mobileYOffset,
-    );
+springsRef.current.y.setTarget(
+  frame.y + mobileYOffset,
+);
 
-    springsRef.current.z.setTarget(frame.z);
+springsRef.current.z.setTarget(frame.z);
 
-    springsRef.current.rotationX.setTarget(
-      frame.rotationX + pitch,
-    );
+springsRef.current.rotationX.setTarget(
+  frame.rotationX + pitch,
+);
 
-    springsRef.current.rotationY.setTarget(
-      frame.rotationY,
-    );
+springsRef.current.rotationY.setTarget(
+  frame.rotationY,
+);
 
-    springsRef.current.rotationZ.setTarget(
-      frame.rotationZ + bank,
-    );
+springsRef.current.rotationZ.setTarget(
+  frame.rotationZ + bank,
+);
 
-    springsRef.current.scale.setTarget(
-      frame.scale,
-    );
+springsRef.current.scale.setTarget(
+  frame.scale,
+);
 
-    movementGroup.position.set(
-      springsRef.current.x.update(delta),
-      springsRef.current.y.update(delta),
-      springsRef.current.z.update(delta),
-    );
+movementGroup.position.set(
+  springsRef.current.x.update(delta),
+  springsRef.current.y.update(delta),
+  springsRef.current.z.update(delta),
+);
 
-    movementGroup.rotation.set(
-      springsRef.current.rotationX.update(delta),
-      springsRef.current.rotationY.update(delta),
-      springsRef.current.rotationZ.update(delta),
-    );
+movementGroup.rotation.set(
+  springsRef.current.rotationX.update(delta),
+  springsRef.current.rotationY.update(delta),
+  springsRef.current.rotationZ.update(delta),
+);
 
-    const modelScale =
-      springsRef.current.scale.update(delta);
+const modelScale =
+  springsRef.current.scale.update(delta);
 
-    /*
-     * Only mobile is reduced.
-     * Desktop remains completely unchanged.
-     */
-    const responsiveScale = isMobile
-      ? modelScale * 0.58
-      : modelScale;
+/*
+ * 74% scale gives a clearly visible full car on mobile.
+ * Desktop remains 100% unchanged.
+ */
+const responsiveScale = isMobile
+  ? modelScale * 0.68
+  : modelScale;
 
-    movementGroup.scale.setScalar(
-      responsiveScale,
-    );
+movementGroup.scale.setScalar(
+  responsiveScale,
+);
 
     if (!motionRef.current.isDragging) {
       motionRef.current.dragRotation +=

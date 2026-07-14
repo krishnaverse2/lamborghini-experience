@@ -978,3 +978,219 @@
     left: 18px;
   }
 }
+
+/* =====================================================
+   MOBILE LAYOUT
+   Text first → car below → action at bottom
+   Desktop remains unchanged
+===================================================== */
+
+@media (max-width: 768px) {
+  .header {
+    min-height: 70px;
+    padding: 14px 18px;
+  }
+
+  .logo {
+    gap: 2px;
+  }
+
+  .logo strong {
+    font-size: 17px;
+    letter-spacing: 0.09em;
+  }
+
+  .logo span {
+    font-size: 6px;
+    letter-spacing: 0.14em;
+  }
+
+  .headerCenter,
+  .headerRight,
+  .progress,
+  .dragHint {
+    display: none;
+  }
+
+  .chapter {
+    position: relative;
+    min-height: 100svh;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding:
+      92px
+      18px
+      105px;
+  }
+
+  .chapterCopy,
+  .chapterRight .chapterCopy {
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .chapterRight .eyebrow {
+    justify-content: flex-start;
+  }
+
+  .chapterRight .description {
+    margin-left: 0;
+  }
+
+  .eyebrow {
+    gap: 8px;
+    margin-bottom: 11px;
+  }
+
+  .eyebrow span {
+    font-size: 14px;
+  }
+
+  .eyebrow i {
+    width: 25px;
+  }
+
+  .eyebrow p {
+    font-size: 6px;
+    letter-spacing: 0.17em;
+  }
+
+  .chapter h1 {
+    width: min(100%, 330px);
+    max-width: 330px;
+    font-size: clamp(
+      42px,
+      12.5vw,
+      58px
+    );
+    line-height: 0.85;
+    letter-spacing: -0.025em;
+  }
+
+  .description {
+    width: min(100%, 315px);
+    max-width: 315px;
+    margin-top: 14px;
+    font-size: 9px;
+    line-height: 1.6;
+  }
+
+  /*
+   * Text occupies only the upper section.
+   * The fixed Three.js car remains clearly visible below.
+   */
+  .chapterCopy {
+    min-height: 245px;
+  }
+
+  .scrollPrompt,
+  .configureButton {
+    position: absolute;
+    right: 18px;
+    bottom: 35px;
+    left: 18px;
+    width: auto;
+    margin: 0;
+    padding: 12px 0;
+    font-size: 7px;
+    letter-spacing: 0.16em;
+  }
+
+  .scrollPrompt strong,
+  .configureButton span {
+    font-size: 14px;
+  }
+
+  .motionDetails {
+    margin-top: 15px;
+  }
+
+  .motionDetails code {
+    padding: 10px;
+    font-size: 8px;
+  }
+
+  .motionDetails ul {
+    grid-template-columns:
+      1fr 1fr;
+    gap: 6px 10px;
+    margin-top: 10px;
+    font-size: 6px;
+  }
+
+  .colours {
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .colours button {
+    gap: 5px;
+    font-size: 6px;
+  }
+
+  .colours button > span {
+    width: 32px;
+    height: 17px;
+  }
+
+  .metrics {
+    justify-content: flex-start;
+    gap: 16px;
+    margin-top: 15px;
+  }
+
+  .metrics strong {
+    font-size: 27px;
+  }
+
+  .metrics span {
+    font-size: 6px;
+  }
+
+  .vignette {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(7, 7, 7, 0.5)
+          0%,
+        rgba(7, 7, 7, 0.22)
+          31%,
+        transparent
+          45%,
+        transparent
+          78%,
+        rgba(7, 7, 7, 0.72)
+          100%
+      );
+  }
+}
+
+@media (max-width: 420px) {
+  .chapter {
+    padding:
+      88px
+      16px
+      100px;
+  }
+
+  .chapter h1 {
+    max-width: 305px;
+    font-size: clamp(
+      40px,
+      12vw,
+      53px
+    );
+  }
+
+  .description {
+    max-width: 295px;
+  }
+
+  .scrollPrompt,
+  .configureButton {
+    right: 16px;
+    bottom: 30px;
+    left: 16px;
+  }
+}
