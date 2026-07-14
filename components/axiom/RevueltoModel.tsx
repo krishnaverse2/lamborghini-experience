@@ -6,12 +6,8 @@ import {
   type MotionRef,
 } from "@/components/axiom/types";
 import { useGLTF } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-import {
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useEffect, useMemo, useRef } from "react";
 import {
   Box3,
   Color,
@@ -67,8 +63,7 @@ const TARGET_LENGTH = 6.4;
 const BLUEPRINT_COLOUR = "#37b7df";
 
 /*
- * Material.012 is used by the main exterior body
- * panels in the newly uploaded GLB.
+ * Keep your verified exterior body material here.
  */
 const BODY_PAINT_MATERIAL_NAMES = new Set([
   "Material.012",
@@ -138,11 +133,7 @@ const FRAMES: SceneFrame[] = [
 ];
 
 function smoothstep(value: number) {
-  const safeValue = MathUtils.clamp(
-    value,
-    0,
-    1,
-  );
+  const safeValue = MathUtils.clamp(value, 0, 1);
 
   return (
     safeValue *
@@ -270,10 +261,6 @@ function prepareNormalModel(
             return sourceMaterial.clone();
           }
 
-          /*
-           * Clone the imported GLB material.
-           * Do not create a new orange material.
-           */
           const material =
             sourceMaterial.clone();
 
@@ -299,10 +286,12 @@ function prepareNormalModel(
 
           if (isGlass) {
             material.transparent = true;
+
             material.opacity = Math.min(
               material.opacity,
               0.74,
             );
+
             material.roughness = 0.08;
           }
 
@@ -324,35 +313,24 @@ function prepareNormalModel(
           if (isBodyPaint) {
             configurablePaint.push({
               material,
-
-              /*
-               * Save exact original GLB appearance.
-               */
               originalColor:
                 material.color.clone(),
-
               originalMap:
                 material.map ?? null,
-
               originalMetalness:
                 material.metalness,
-
               originalRoughness:
                 material.roughness,
-
               originalTransparent:
                 material.transparent,
-
               originalOpacity:
                 material.opacity,
-
               originalDepthWrite:
                 material.depthWrite,
             });
           }
 
           material.needsUpdate = true;
-
           allMaterials.push(material);
 
           return material;
@@ -364,21 +342,6 @@ function prepareNormalModel(
         ? preparedMaterials
         : preparedMaterials[0];
   });
-
-  console.log(
-    "Detected configurable body panels:",
-    configurablePaint.length,
-    configurablePaint.map(
-      (record) => ({
-        material:
-          record.material.name,
-        colour:
-          `#${record.originalColor.getHexString()}`,
-        hasTexture:
-          Boolean(record.originalMap),
-      }),
-    ),
-  );
 
   return {
     configurablePaint,
@@ -506,6 +469,11 @@ export default function RevueltoModel({
   selectedColour,
   activeChapter,
 }: RevueltoModelProps) {
+  const { size } = useThree();
+
+  const isMobile =
+    size.width <= 768;
+
   const movementGroupRef =
     useRef<Group>(null);
 
@@ -568,9 +536,6 @@ export default function RevueltoModel({
       );
     }
 
-    /*
-     * Texture changes require needsUpdate.
-     */
     preparedModels.configurablePaint.forEach(
       (record) => {
         const useOriginal =
@@ -596,12 +561,7 @@ export default function RevueltoModel({
           record.material.depthWrite =
             record.originalDepthWrite;
         } else {
-          /*
-           * Remove the white texture only after
-           * the user selects a configurator colour.
-           */
           record.material.map = null;
-
           record.material.metalness = 0.78;
           record.material.roughness = 0.2;
 
@@ -610,8 +570,9 @@ export default function RevueltoModel({
             MeshPhysicalMaterial
           ) {
             record.material.clearcoat = 1;
-            record.material.clearcoatRoughness =
-              0.06;
+
+            record.material
+              .clearcoatRoughness = 0.06;
           }
         }
 
@@ -779,8 +740,17 @@ export default function RevueltoModel({
         delta,
       );
 
+    /*
+     * Desktop remains unchanged.
+     * Mobile car is 28% smaller.
+     */
+    const responsiveScale =
+      isMobile
+        ? modelScale * 0.72
+        : modelScale;
+
     movementGroup.scale.setScalar(
-      modelScale,
+      responsiveScale,
     );
 
     if (
@@ -825,10 +795,6 @@ export default function RevueltoModel({
           0.7,
       ) * 0.006;
 
-    /*
-     * Preserve original GLB appearance until
-     * the visitor chooses a colour.
-     */
     const useOriginalColour =
       selectedColourRef.current ===
       ORIGINAL_CAR_COLOUR;
