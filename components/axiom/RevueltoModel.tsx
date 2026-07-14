@@ -555,21 +555,16 @@ export default function RevueltoModel({
  */
 const mobileXMultiplier = isMobile ? 0.03 : 1;
 
-/*
- * Negative Y moves the vehicle downward on mobile.
- * Every chapter uses a controlled position so the car
- * stays below the chapter text.
- */
 const mobileYOffset = isMobile
   ? activeChapter === 0
-    ? 0.08
+    ? 0.65
     : activeChapter === 1
-      ? 0.02
+      ? 0.58
       : activeChapter === 2
-        ? 0.05
+        ? 0.62
         : activeChapter === 3
-          ? 0
-          : 0.04
+          ? 0.55
+          : 0.6
   : 0;
 
 springsRef.current.x.setTarget(
