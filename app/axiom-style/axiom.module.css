@@ -509,43 +509,6 @@
 }
 
 
-@media (max-width: 620px) {
-  .headerRight,
-  .progress {
-    display: none;
-  }
-
-  .chapter {
-    padding: 100px 20px 170px;
-  }
-
-  .chapter h1 {
-    font-size: clamp(55px, 18vw, 88px);
-  }
-
-  .description {
-    max-width: 330px;
-    margin-top: 23px;
-    font-size: 11px;
-  }
-
-  .motionDetails ul {
-    grid-template-columns: 1fr;
-  }
-
-  .metrics {
-    gap: 20px;
-  }
-
-  .metrics strong {
-    font-size: 32px;
-  }
-
-  .dragHint {
-    display: none;
-  }
-}
-
 .blueprintGrid {
   position: absolute;
   inset: 0;
@@ -604,123 +567,6 @@
    MOBILE HERO SPACING + TYPOGRAPHY FIX
    Desktop remains unchanged
 ===================================================== */
-
-@media (max-width: 620px) {
-  /* Smaller fixed header */
-  .header {
-    min-height: 86px;
-    padding: 18px 20px;
-  }
-
-  .logo {
-    gap: 3px;
-  }
-
-  .logo strong {
-    font-size: 18px;
-    letter-spacing: 0.1em;
-  }
-
-  .logo span {
-    font-size: 6px;
-    letter-spacing: 0.18em;
-  }
-
-  /* Hide unnecessary right-side header content */
-  .headerCenter,
-  .headerRight {
-    display: none;
-  }
-
-  /*
-   * Reduce the large empty space before the hero copy.
-   * The content begins higher on mobile.
-   */
-  .chapter {
-    min-height: 100svh;
-    align-items: flex-end;
-    padding:
-      90px
-      20px
-      105px;
-  }
-
-  /*
-   * First chapter needs slightly less bottom padding
-   * so the heading sits higher.
-   */
-  .chapter:first-child {
-    padding-bottom: 82px;
-  }
-
-  .chapterCopy,
-  .chapterRight .chapterCopy {
-    width: 100%;
-    max-width: 100%;
-    text-align: left;
-  }
-
-  .chapterRight .eyebrow {
-    justify-content: flex-start;
-  }
-
-  .eyebrow {
-    gap: 9px;
-    margin-bottom: 14px;
-  }
-
-  .eyebrow span {
-    font-size: 15px;
-  }
-
-  .eyebrow i {
-    width: 28px;
-  }
-
-  .eyebrow p {
-    font-size: 7px;
-    letter-spacing: 0.2em;
-  }
-
-  /*
-   * Smaller BORN BEYOND CONVENTION heading.
-   */
-  .chapter h1 {
-    max-width: 340px;
-    font-size: clamp(48px, 14vw, 66px);
-    letter-spacing: -0.025em;
-    line-height: 0.84;
-  }
-
-  .description {
-    max-width: 330px;
-    margin-top: 20px;
-    font-size: 10px;
-    line-height: 1.7;
-  }
-
-  /*
-   * Smaller gap above and below Scroll to Ignite.
-   */
-  .scrollPrompt,
-  .configureButton {
-    width: 100%;
-    margin-top: 24px;
-    padding: 14px 0;
-    font-size: 7px;
-    letter-spacing: 0.18em;
-  }
-
-  .scrollPrompt strong,
-  .configureButton span {
-    font-size: 15px;
-  }
-
-  .dragHint,
-  .progress {
-    display: none;
-  }
-}
 
 /* =====================================================
    MOBILE: TEXT FIRST, CAR BELOW
@@ -1616,5 +1462,358 @@
 
   .chapter {
     padding-top: 90px;
+  }
+}
+
+/* =====================================================
+   CLEAN MOBILE LAYOUT
+   AXIOM-style fixed 3D canvas
+===================================================== */
+
+.mobileProgress {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .page {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .canvasLayer {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100svh;
+  }
+
+  .header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+
+    display: flex;
+    width: 100%;
+    height: 72px;
+    min-height: 72px;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: 0 17px;
+
+    border-bottom: 1px solid
+      rgba(255, 255, 255, 0.1);
+
+    background: rgba(5, 5, 6, 0.94);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    pointer-events: auto;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 7px;
+  }
+
+  .logo strong {
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+
+  .logo span {
+    font-size: 6px;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
+
+  .headerCenter,
+  .headerRight,
+  .desktopProgress,
+  .dragHint {
+    display: none;
+  }
+
+  .chapters {
+    position: relative;
+    z-index: 5;
+  }
+
+  .chapter {
+    position: relative;
+    display: flex;
+
+    width: 100%;
+    height: 100svh;
+    min-height: 100svh;
+
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    padding: 94px 34px 24px 17px;
+
+    box-sizing: border-box;
+  }
+
+  .chapterCopy,
+  .chapterRight .chapterCopy {
+    width: 100%;
+    max-width: 330px;
+    min-height: 0;
+
+    text-align: left;
+  }
+
+  .chapterRight .eyebrow {
+    justify-content: flex-start;
+  }
+
+  .chapterRight .description {
+    margin-left: 0;
+  }
+
+  .eyebrow {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .eyebrow span {
+    font-size: 14px;
+  }
+
+  .eyebrow i {
+    width: 25px;
+  }
+
+  .eyebrow p {
+    font-size: 6px;
+    letter-spacing: 0.17em;
+  }
+
+  .chapter h1 {
+    width: 100%;
+    max-width: 320px;
+
+    font-size: clamp(
+      39px,
+      11.8vw,
+      53px
+    );
+
+    line-height: 0.86;
+    letter-spacing: -0.025em;
+  }
+
+  .description {
+    width: 100%;
+    max-width: 300px;
+
+    margin-top: 13px;
+
+    font-size: 9px;
+    line-height: 1.55;
+  }
+
+  .scrollPrompt,
+  .configureButton {
+    position: absolute;
+    right: 34px;
+    bottom: 20px;
+    left: 17px;
+
+    width: auto;
+    margin: 0;
+    padding: 11px 0;
+
+    font-size: 7px;
+    letter-spacing: 0.15em;
+  }
+
+  .scrollPrompt strong,
+  .configureButton span {
+    font-size: 14px;
+  }
+
+  .motionDetails {
+    max-width: 315px;
+    margin-top: 13px;
+  }
+
+  .motionDetails code {
+    padding: 9px;
+    font-size: 8px;
+  }
+
+  .motionDetails ul {
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 9px;
+
+    margin-top: 9px;
+
+    font-size: 6px;
+  }
+
+  .colours {
+    max-width: 320px;
+    gap: 9px;
+
+    margin-top: 14px;
+  }
+
+  .colours button {
+    gap: 5px;
+    font-size: 6px;
+  }
+
+  .colours button > span {
+    width: 31px;
+    height: 16px;
+  }
+
+  .metrics {
+    justify-content: flex-start;
+    gap: 15px;
+
+    margin-top: 14px;
+  }
+
+  .metrics strong {
+    font-size: 26px;
+  }
+
+  .metrics span {
+    font-size: 6px;
+  }
+
+  .progress {
+    position: fixed;
+    top: 50%;
+    right: 8px;
+    z-index: 95;
+
+    display: block;
+
+    transform: translateY(-50%);
+    pointer-events: auto;
+  }
+
+  .mobileProgress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .progressDot {
+    display: block;
+
+    width: 9px;
+    height: 9px;
+
+    border: 1px solid
+      rgba(243, 241, 235, 0.48);
+
+    border-radius: 50%;
+    background: transparent;
+
+    transition:
+      width 220ms ease,
+      height 220ms ease,
+      border-color 220ms ease,
+      background 220ms ease;
+  }
+
+  .progressDotActive {
+    width: 12px;
+    height: 12px;
+
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+
+  .vignette {
+    background: linear-gradient(
+      180deg,
+      rgba(7, 7, 7, 0.72) 0%,
+      rgba(7, 7, 7, 0.25) 27%,
+      transparent 42%,
+      transparent 84%,
+      rgba(7, 7, 7, 0.42) 100%
+    );
+  }
+
+  .blueprintGrid {
+    background-size:
+      48px 48px,
+      48px 48px,
+      100% 100%;
+  }
+
+  .marquee {
+    padding: 18px 0;
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 420px) {
+  .header {
+    height: 70px;
+    min-height: 70px;
+    padding: 0 15px;
+  }
+
+  .logo {
+    gap: 6px;
+  }
+
+  .logo strong {
+    font-size: 18px;
+  }
+
+  .logo span {
+    font-size: 6px;
+  }
+
+  .chapter {
+    height: 100svh;
+    min-height: 100svh;
+    padding: 90px 31px 20px 15px;
+  }
+
+  .chapterCopy,
+  .chapterRight .chapterCopy {
+    max-width: 305px;
+    min-height: 0;
+  }
+
+  .chapter h1 {
+    max-width: 295px;
+    font-size: clamp(
+      37px,
+      11.5vw,
+      49px
+    );
+  }
+
+  .description {
+    max-width: 282px;
+    font-size: 8.5px;
+  }
+
+  .scrollPrompt,
+  .configureButton {
+    right: 31px;
+    bottom: 18px;
+    left: 15px;
+  }
+
+  .progress {
+    right: 7px;
   }
 }
