@@ -561,9 +561,9 @@ const mobileYOffset = isMobile
     : activeChapter === 1
       ? 0.70
       : activeChapter === 2
-        ? 0.70
+        ? 0.90
         : activeChapter === 3
-          ? 0.70
+          ? 1.10
           : 0.6
   : 0;
 
