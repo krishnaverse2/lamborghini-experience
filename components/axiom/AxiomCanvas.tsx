@@ -1,5 +1,6 @@
 "use client";
 
+import ChapterBackdrop from "@/components/axiom/ChapterBackdrop";
 import CinematicCameraRig from "@/components/axiom/CinematicCameraRig";
 import RevueltoModel from "@/components/axiom/RevueltoModel";
 import type { MotionRef } from "@/components/axiom/types";
@@ -61,9 +62,13 @@ export default function AxiomCanvas({
       gl={{
         antialias: true,
         alpha: false,
-        powerPreference: "high-performance",
+        powerPreference:
+          "high-performance",
       }}
-      onCreated={({ gl, camera }) => {
+      onCreated={({
+        gl,
+        camera,
+      }) => {
         gl.toneMapping =
           ACESFilmicToneMapping;
 
@@ -72,7 +77,11 @@ export default function AxiomCanvas({
         gl.outputColorSpace =
           SRGBColorSpace;
 
-        camera.lookAt(0.7, -0.15, 0);
+        camera.lookAt(
+          0.7,
+          -0.15,
+          0,
+        );
       }}
     >
       <color
@@ -111,11 +120,12 @@ export default function AxiomCanvas({
 
       <ambientLight
         intensity={
-          blueprintActive ? 0.04 : 0.26
+          blueprintActive
+            ? 0.04
+            : 0.26
         }
       />
 
-      {/* Main cinematic key light */}
       <spotLight
         position={[4, 7, 6]}
         intensity={
@@ -142,13 +152,18 @@ export default function AxiomCanvas({
                   ? "#ffe9b0"
                   : "#fff4dc"
         }
-        castShadow={!blueprintActive}
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
+        castShadow={
+          !blueprintActive
+        }
+        shadow-mapSize-width={
+          2048
+        }
+        shadow-mapSize-height={
+          2048
+        }
         shadow-bias={-0.00015}
       />
 
-      {/* Left fill light */}
       <spotLight
         position={[-5, 3, 3]}
         intensity={
@@ -175,7 +190,6 @@ export default function AxiomCanvas({
         }
       />
 
-      {/* Rear separation light */}
       <spotLight
         position={[4, 3, -6]}
         intensity={
@@ -201,10 +215,28 @@ export default function AxiomCanvas({
       />
 
       <Suspense fallback={null}>
+        {/*
+         * Large chapter number rendered inside
+         * the Three.js scene behind the car.
+         */}
+        <ChapterBackdrop
+          activeChapter={
+            activeChapter
+          }
+        />
+
+        {/*
+         * Lamborghini stays in front of the
+         * chapter number.
+         */}
         <RevueltoModel
           motionRef={motionRef}
-          selectedColour={selectedColour}
-          activeChapter={activeChapter}
+          selectedColour={
+            selectedColour
+          }
+          activeChapter={
+            activeChapter
+          }
         />
 
         <mesh
@@ -213,10 +245,16 @@ export default function AxiomCanvas({
             0,
             0,
           ]}
-          position={[0, -0.91, 0]}
+          position={[
+            0,
+            -0.91,
+            0,
+          ]}
           receiveShadow
         >
-          <planeGeometry args={[30, 24]} />
+          <planeGeometry
+            args={[30, 24]}
+          />
 
           <meshStandardMaterial
             color={
@@ -229,19 +267,29 @@ export default function AxiomCanvas({
                     : "#080807"
             }
             metalness={
-              blueprintActive ? 0 : 0.46
+              blueprintActive
+                ? 0
+                : 0.46
             }
             roughness={
-              blueprintActive ? 1 : 0.4
+              blueprintActive
+                ? 1
+                : 0.4
             }
           />
         </mesh>
 
         {!blueprintActive && (
           <ContactShadows
-            position={[0, -0.89, 0]}
+            position={[
+              0,
+              -0.89,
+              0,
+            ]}
             opacity={
-              colourChapterActive ? 0.62 : 0.72
+              colourChapterActive
+                ? 0.62
+                : 0.72
             }
             scale={10}
             blur={2.8}
@@ -251,11 +299,15 @@ export default function AxiomCanvas({
           />
         )}
 
-        <Environment resolution={256}>
+        <Environment
+          resolution={256}
+        >
           <Lightformer
             form="rect"
             position={[0, 6, 1]}
-            rotation-x={Math.PI / 2}
+            rotation-x={
+              Math.PI / 2
+            }
             scale={[7, 0.5, 1]}
             intensity={
               blueprintActive
@@ -282,7 +334,9 @@ export default function AxiomCanvas({
           <Lightformer
             form="rect"
             position={[-5, 2, 1]}
-            rotation-y={Math.PI / 2}
+            rotation-y={
+              Math.PI / 2
+            }
             scale={[4, 0.4, 1]}
             intensity={
               blueprintActive
@@ -302,11 +356,19 @@ export default function AxiomCanvas({
 
           <Lightformer
             form="rect"
-            position={[7, 2, -2]}
+            position={[
+              7,
+              2,
+              -2,
+            ]}
             rotation-y={
               -Math.PI / 2
             }
-            scale={[4, 0.35, 1]}
+            scale={[
+              4,
+              0.35,
+              1,
+            ]}
             intensity={
               blueprintActive
                 ? 0.07
@@ -324,7 +386,9 @@ export default function AxiomCanvas({
           />
         </Environment>
 
-        <EffectComposer multisampling={0}>
+        <EffectComposer
+          multisampling={0}
+        >
           <Bloom
             intensity={
               blueprintActive
@@ -342,7 +406,9 @@ export default function AxiomCanvas({
                   ? 0.82
                   : 0.9
             }
-            luminanceSmoothing={0.08}
+            luminanceSmoothing={
+              0.08
+            }
             mipmapBlur
           />
 

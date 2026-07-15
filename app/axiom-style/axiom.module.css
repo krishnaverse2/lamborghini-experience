@@ -565,12 +565,66 @@
   display: none;
 }
 
+
+/* =====================================================
+   LARGE OUTLINED CHAPTER NUMBER BACKGROUND
+   Applied to 01, 02, 03, 04 and 05
+===================================================== */
+
+.chapterNumberBackground {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  z-index: 2;
+
+  width: 100%;
+
+  color: transparent;
+  font-family: var(--font-display);
+  font-size: clamp(360px, 44vw, 720px);
+  font-weight: 400;
+  letter-spacing: -0.08em;
+  line-height: 0.72;
+  text-align: center;
+  white-space: nowrap;
+
+  -webkit-text-stroke: 1px rgba(243, 241, 235, 0.12);
+
+  filter: drop-shadow(
+    0 0 22px rgba(255, 255, 255, 0.025)
+  );
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+  user-select: none;
+}
+
 /* =====================================================
    MOBILE STRUCTURE
    Fixed canvas + one viewport chapter + no text overlap
 ===================================================== */
 
 @media (max-width: 768px) {
+
+  .chapterNumberBackground {
+    top: 58%;
+    left: 48%;
+
+    font-size: clamp(245px, 94vw, 430px);
+    line-height: 0.72;
+    letter-spacing: -0.1em;
+
+    -webkit-text-stroke:
+      1px rgba(243, 241, 235, 0.13);
+
+    filter: drop-shadow(
+      0 0 18px rgba(255, 255, 255, 0.025)
+    );
+
+    transform: translate(-50%, -50%);
+  }
+
   .page {
     width: 100%;
     overflow-x: hidden;
@@ -854,6 +908,13 @@
 }
 
 @media (max-width: 420px) {
+
+  .chapterNumberBackground {
+    top: 59%;
+    left: 47%;
+    font-size: clamp(225px, 96vw, 390px);
+  }
+
   .header {
     height: 70px;
     min-height: 70px;
