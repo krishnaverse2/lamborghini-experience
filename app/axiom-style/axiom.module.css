@@ -207,14 +207,10 @@
   text-transform: uppercase;
 }
 
-.chapter h1 {
-  max-width: 760px;
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(76px, 8.4vw, 150px);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 0.8;
+.chapterCopy h1 {
+  font-size: clamp(72px, 8.5vw, 170px);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
 }
 
