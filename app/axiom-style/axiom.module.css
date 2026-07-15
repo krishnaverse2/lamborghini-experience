@@ -14,7 +14,7 @@
 .canvasLayer {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 10;
   width: 100%;
   height: 100svh;
   cursor: grab;
@@ -37,6 +37,7 @@
 .grain {
   position: absolute;
   inset: 0;
+  z-index: 11;
   pointer-events: none;
 }
 
@@ -132,7 +133,7 @@
 
 .chapters {
   position: relative;
-  z-index: 5;
+  z-index: auto;
   pointer-events: none;
 }
 
@@ -153,6 +154,8 @@
 }
 
 .chapterCopy {
+  position: relative;
+  z-index: 12;
   width: min(43vw, 640px);
   opacity: 0;
   filter: blur(7px);
@@ -264,7 +267,7 @@
   display: block;
   padding: 17px 18px;
   border-left: 1px solid var(--accent);
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(255, 255, 255, 0.085);
   color: rgba(243, 241, 235, 0.72);
   font-size: 12px;
 }
@@ -514,11 +517,12 @@
 .blueprintGrid {
   position: absolute;
   inset: 0;
-  opacity: 0.2;
+  z-index: 1;
+  opacity: 0.72;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.085) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.085) 1px, transparent 1px),
     radial-gradient(circle at 28% 54%, rgba(212, 170, 82, 0.055), transparent 34%);
   background-size: 72px 72px, 72px 72px, 100% 100%;
   transition: opacity 600ms ease, background-image 600ms ease;
@@ -527,7 +531,7 @@
 .blueprintGrid::before,
 .blueprintGrid::after {
   position: absolute;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 50%;
   content: "";
 }
@@ -588,13 +592,15 @@
   text-align: center;
   white-space: nowrap;
 
-  -webkit-text-stroke: 1px rgba(243, 241, 235, 0.12);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
 
   filter: drop-shadow(
     0 0 22px rgba(255, 255, 255, 0.025)
   );
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%, -50%)
+    rotate(-10deg);
 
   pointer-events: none;
   user-select: none;
@@ -606,13 +612,6 @@
 ===================================================== */
 
 @media (max-width: 768px) {
-  .page {
-    width: 100%;
-    overflow-x: hidden;
-    scroll-snap-type: y mandatory;
-  }
-
-
 
   .chapterNumberBackground {
     top: 58%;
@@ -629,8 +628,16 @@
       0 0 18px rgba(255, 255, 255, 0.025)
     );
 
-    transform: translate(-50%, -50%);
+    transform:
+      translate(-50%, -50%)
+      rotate(-11deg);
   }
+
+  .page {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   .canvasLayer {
     position: fixed;
     inset: 0;
@@ -687,7 +694,7 @@
 
   .chapters {
     position: relative;
-    z-index: 5;
+    z-index: auto;
     pointer-events: none;
   }
 
@@ -702,8 +709,6 @@
     box-sizing: border-box;
     overflow: hidden;
     padding: 92px 34px 24px 17px;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
   }
 
   .chapterCopy,
@@ -907,7 +912,6 @@
   .marquee {
     padding: 18px 0;
     font-size: 7px;
-    scroll-snap-align: start;
   }
 }
 
@@ -950,5 +954,20 @@
   .configureButton {
     margin-top: 16px;
     padding: 10px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .chapter {
+    height: 88svh;
+    min-height: 88svh;
+    padding-bottom: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .chapter {
+    height: 78svh;
+    min-height: 78svh;
   }
 }
