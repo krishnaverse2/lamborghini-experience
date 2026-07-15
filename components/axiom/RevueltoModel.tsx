@@ -555,16 +555,21 @@ export default function RevueltoModel({
  */
 const mobileXMultiplier = isMobile ? 0.03 : 1;
 
+/*
+ * Mobile placement tuned for a fixed full-screen canvas.
+ * Chapter 1 is centered; later chapters stay slightly lower
+ * so the vehicle does not cover the chapter copy.
+ */
 const mobileYOffset = isMobile
   ? activeChapter === 0
-    ? 0.80 // Chapter 1: move car upward to center
+    ? 0.72
     : activeChapter === 1
-      ? 0.70
+      ? 0.56
       : activeChapter === 2
-        ? 0.90
+        ? 0.58
         : activeChapter === 3
-          ? 1.10
-          : 0.6
+          ? 0.52
+          : 0.56
   : 0;
 
 springsRef.current.x.setTarget(
@@ -613,7 +618,7 @@ const modelScale =
  * Desktop remains 100% unchanged.
  */
 const responsiveScale = isMobile
-  ? modelScale * 0.56
+  ? modelScale * 0.58
   : modelScale;
 
 movementGroup.scale.setScalar(

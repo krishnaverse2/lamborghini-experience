@@ -508,39 +508,26 @@
   }
 }
 
-
+/* =====================================================
+   TECHNICAL BACKGROUND LAYER
+===================================================== */
 .blueprintGrid {
   position: absolute;
   inset: 0;
-  opacity: 0;
+  opacity: 0.2;
   pointer-events: none;
   background-image:
-    linear-gradient(
-      rgba(29, 133, 180, 0.11) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(29, 133, 180, 0.11) 1px,
-      transparent 1px
-    ),
-    radial-gradient(
-      circle at 28% 54%,
-      rgba(22, 200, 255, 0.1),
-      transparent 34%
-    );
-  background-size:
-    72px 72px,
-    72px 72px,
-    100% 100%;
-  transition: opacity 600ms ease;
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 28% 54%, rgba(212, 170, 82, 0.055), transparent 34%);
+  background-size: 72px 72px, 72px 72px, 100% 100%;
+  transition: opacity 600ms ease, background-image 600ms ease;
 }
 
 .blueprintGrid::before,
 .blueprintGrid::after {
   position: absolute;
-  border: 1px solid
-    rgba(22, 200, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 50%;
   content: "";
 }
@@ -561,712 +548,11 @@
 
 .blueprintGridVisible {
   opacity: 1;
+  background-image:
+    linear-gradient(rgba(29, 133, 180, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 133, 180, 0.11) 1px, transparent 1px),
+    radial-gradient(circle at 28% 54%, rgba(22, 200, 255, 0.1), transparent 34%);
 }
-
-/* =====================================================
-   MOBILE HERO SPACING + TYPOGRAPHY FIX
-   Desktop remains unchanged
-===================================================== */
-
-/* =====================================================
-   MOBILE: TEXT FIRST, CAR BELOW
-   Desktop remains unchanged
-===================================================== */
-
-@media (max-width: 768px) {
-  .header {
-    min-height: 72px;
-    padding: 15px 18px;
-  }
-
-  .logo {
-    gap: 2px;
-  }
-
-  .logo strong {
-    font-size: 17px;
-    letter-spacing: 0.09em;
-  }
-
-  .logo span {
-    font-size: 6px;
-    letter-spacing: 0.15em;
-  }
-
-  .headerCenter,
-  .headerRight,
-  .progress,
-  .dragHint {
-    display: none;
-  }
-
-  /*
-   * The chapter content is placed at the top.
-   * The 3D Lamborghini is positioned below it.
-   */
-  .chapter {
-    min-height: 110svh;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding:
-      105px
-      20px
-      130px;
-  }
-
-  .chapterCopy,
-  .chapterRight .chapterCopy {
-    width: 100%;
-    max-width: 100%;
-    text-align: left;
-  }
-
-  .chapterRight .eyebrow {
-    justify-content: flex-start;
-  }
-
-  .chapterRight .description {
-    margin-left: 0;
-  }
-
-  .eyebrow {
-    gap: 9px;
-    margin-bottom: 13px;
-  }
-
-  .eyebrow span {
-    font-size: 15px;
-  }
-
-  .eyebrow i {
-    width: 27px;
-  }
-
-  .eyebrow p {
-    font-size: 7px;
-    letter-spacing: 0.19em;
-  }
-
-  .chapter h1 {
-    width: min(100%, 350px);
-    max-width: 350px;
-    font-size: clamp(45px, 13.5vw, 62px);
-    letter-spacing: -0.025em;
-    line-height: 0.84;
-  }
-
-  .description {
-    width: min(100%, 335px);
-    max-width: 335px;
-    margin-top: 17px;
-    font-size: 10px;
-    line-height: 1.65;
-  }
-
-  /*
-   * Reserve visible space for the car below the text.
-   */
-  .chapterCopy {
-    min-height: 360px;
-  }
-
-  .scrollPrompt,
-  .configureButton {
-    position: absolute;
-    right: 20px;
-    bottom: 50px;
-    left: 20px;
-    width: auto;
-    margin-top: 0;
-    padding: 13px 0;
-    font-size: 7px;
-    letter-spacing: 0.17em;
-  }
-
-  .scrollPrompt strong,
-  .configureButton span {
-    font-size: 15px;
-  }
-
-  .motionDetails {
-    margin-top: 18px;
-  }
-
-  .motionDetails code {
-    padding: 12px;
-    font-size: 9px;
-  }
-
-  .motionDetails ul {
-    grid-template-columns: 1fr 1fr;
-    gap: 7px 12px;
-    margin-top: 12px;
-    font-size: 7px;
-  }
-
-  .colours {
-    gap: 12px;
-    margin-top: 18px;
-  }
-
-  .colours button {
-    gap: 6px;
-    font-size: 6px;
-  }
-
-  .colours button > span {
-    width: 34px;
-    height: 18px;
-  }
-
-  .metrics {
-    justify-content: flex-start;
-    gap: 18px;
-    margin-top: 18px;
-  }
-
-  .metrics strong {
-    font-size: 29px;
-  }
-
-  .metrics span {
-    font-size: 6px;
-  }
-
-  .vignette {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(7, 7, 7, 0.2) 0%,
-        rgba(7, 7, 7, 0.55) 34%,
-        transparent 48%,
-        transparent 74%,
-        rgba(7, 7, 7, 0.82) 100%
-      );
-  }
-}
-
-@media (max-width: 420px) {
-  .chapter {
-    padding:
-      96px
-      18px
-      120px;
-  }
-
-  .chapter h1 {
-    max-width: 320px;
-    font-size: clamp(42px, 13vw, 56px);
-  }
-
-  .description {
-    max-width: 310px;
-    font-size: 9px;
-  }
-
-  .scrollPrompt,
-  .configureButton {
-    right: 18px;
-    bottom: 42px;
-    left: 18px;
-  }
-}
-
-/* =====================================================
-   MOBILE LAYOUT
-   Text first → car below → action at bottom
-   Desktop remains unchanged
-===================================================== */
-
-@media (max-width: 768px) {
-  .header {
-    min-height: 70px;
-    padding: 14px 18px;
-  }
-
-  .logo {
-    gap: 2px;
-  }
-
-  .logo strong {
-    font-size: 17px;
-    letter-spacing: 0.09em;
-  }
-
-  .logo span {
-    font-size: 6px;
-    letter-spacing: 0.14em;
-  }
-
-  .headerCenter,
-  .headerRight,
-  .progress,
-  .dragHint {
-    display: none;
-  }
-
-  .chapter {
-    position: relative;
-    min-height: 100svh;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding:
-      92px
-      18px
-      105px;
-  }
-
-  .chapterCopy,
-  .chapterRight .chapterCopy {
-    width: 100%;
-    max-width: 100%;
-    text-align: left;
-  }
-
-  .chapterRight .eyebrow {
-    justify-content: flex-start;
-  }
-
-  .chapterRight .description {
-    margin-left: 0;
-  }
-
-  .eyebrow {
-    gap: 8px;
-    margin-bottom: 11px;
-  }
-
-  .eyebrow span {
-    font-size: 14px;
-  }
-
-  .eyebrow i {
-    width: 25px;
-  }
-
-  .eyebrow p {
-    font-size: 6px;
-    letter-spacing: 0.17em;
-  }
-
-  .chapter h1 {
-    width: min(100%, 330px);
-    max-width: 330px;
-    font-size: clamp(
-      42px,
-      12.5vw,
-      58px
-    );
-    line-height: 0.85;
-    letter-spacing: -0.025em;
-  }
-
-  .description {
-    width: min(100%, 315px);
-    max-width: 315px;
-    margin-top: 14px;
-    font-size: 9px;
-    line-height: 1.6;
-  }
-
-  /*
-   * Text occupies only the upper section.
-   * The fixed Three.js car remains clearly visible below.
-   */
-  .chapterCopy {
-    min-height: 245px;
-  }
-
-  .scrollPrompt,
-  .configureButton {
-    position: absolute;
-    right: 18px;
-    bottom: 35px;
-    left: 18px;
-    width: auto;
-    margin: 0;
-    padding: 12px 0;
-    font-size: 7px;
-    letter-spacing: 0.16em;
-  }
-
-  .scrollPrompt strong,
-  .configureButton span {
-    font-size: 14px;
-  }
-
-  .motionDetails {
-    margin-top: 15px;
-  }
-
-  .motionDetails code {
-    padding: 10px;
-    font-size: 8px;
-  }
-
-  .motionDetails ul {
-    grid-template-columns:
-      1fr 1fr;
-    gap: 6px 10px;
-    margin-top: 10px;
-    font-size: 6px;
-  }
-
-  .colours {
-    gap: 10px;
-    margin-top: 15px;
-  }
-
-  .colours button {
-    gap: 5px;
-    font-size: 6px;
-  }
-
-  .colours button > span {
-    width: 32px;
-    height: 17px;
-  }
-
-  .metrics {
-    justify-content: flex-start;
-    gap: 16px;
-    margin-top: 15px;
-  }
-
-  .metrics strong {
-    font-size: 27px;
-  }
-
-  .metrics span {
-    font-size: 6px;
-  }
-
-  .vignette {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(7, 7, 7, 0.5)
-          0%,
-        rgba(7, 7, 7, 0.22)
-          31%,
-        transparent
-          45%,
-        transparent
-          78%,
-        rgba(7, 7, 7, 0.72)
-          100%
-      );
-  }
-}
-
-@media (max-width: 420px) {
-  .chapter {
-    padding:
-      88px
-      16px
-      100px;
-  }
-
-  .chapter h1 {
-    max-width: 305px;
-    font-size: clamp(
-      40px,
-      12vw,
-      53px
-    );
-  }
-
-  .description {
-    max-width: 295px;
-  }
-
-  .scrollPrompt,
-  .configureButton {
-    right: 16px;
-    bottom: 30px;
-    left: 16px;
-  }
-}
-
-/* =====================================================
-   RESPONSIVE LAYOUT
-   Desktop unchanged
-   Mobile: text first, full car below
-===================================================== */
-
-@media (max-width: 900px) {
-  .header {
-    grid-template-columns: 1fr auto;
-    padding: 21px 22px;
-  }
-
-  .headerCenter {
-    display: none;
-  }
-
-  .chapter {
-    min-height: 108svh;
-    align-items: flex-end;
-    justify-content: flex-start;
-    padding: 110px 23px 155px;
-  }
-
-  .chapterCopy,
-  .chapterRight .chapterCopy {
-    width: min(100%, 620px);
-    text-align: left;
-  }
-
-  .chapterRight .eyebrow {
-    justify-content: flex-start;
-  }
-
-  .chapterRight .description {
-    margin-left: 0;
-  }
-
-  .chapter h1 {
-    font-size: clamp(62px, 15vw, 108px);
-  }
-
-  .metrics {
-    justify-content: flex-start;
-  }
-
-  .dragHint {
-    right: 22px;
-    bottom: 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .canvasLayer {
-    height: 100svh;
-  }
-
-  .header {
-    min-height: 68px;
-    grid-template-columns: 1fr;
-    padding: 13px 17px;
-    background: linear-gradient(
-      180deg,
-      rgba(7, 7, 7, 0.96),
-      rgba(7, 7, 7, 0)
-    );
-  }
-
-  .logo {
-    gap: 2px;
-  }
-
-  .logo strong {
-    font-size: 17px;
-    letter-spacing: 0.09em;
-  }
-
-  .logo span {
-    font-size: 6px;
-    letter-spacing: 0.14em;
-  }
-
-  .headerCenter,
-  .headerRight,
-  .progress,
-  .dragHint {
-    display: none;
-  }
-
-  .chapter {
-    position: relative;
-    min-height: 100svh;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 88px 17px 92px;
-  }
-
-  .chapterCopy,
-  .chapterRight .chapterCopy {
-    width: 100%;
-    max-width: 100%;
-    text-align: left;
-  }
-
-  .chapterRight .eyebrow {
-    justify-content: flex-start;
-  }
-
-  .chapterRight .description {
-    margin-left: 0;
-  }
-
-  .eyebrow {
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-
-  .eyebrow span {
-    font-size: 14px;
-  }
-
-  .eyebrow i {
-    width: 25px;
-  }
-
-  .eyebrow p {
-    font-size: 6px;
-    letter-spacing: 0.17em;
-  }
-
-  .chapter h1 {
-    width: min(100%, 325px);
-    max-width: 325px;
-    font-size: clamp(39px, 11.8vw, 53px);
-    line-height: 0.86;
-    letter-spacing: -0.025em;
-  }
-
-  .description {
-    width: min(100%, 305px);
-    max-width: 305px;
-    margin-top: 13px;
-    font-size: 9px;
-    line-height: 1.55;
-  }
-
-  .chapterCopy {
-    min-height: 205px;
-  }
-
-  .scrollPrompt,
-  .configureButton {
-    position: absolute;
-    right: 17px;
-    bottom: 20px;
-    left: 17px;
-    width: auto;
-    margin: 0;
-    padding: 11px 0;
-    font-size: 7px;
-    letter-spacing: 0.15em;
-  }
-
-  .scrollPrompt strong,
-  .configureButton span {
-    font-size: 14px;
-  }
-
-  .motionDetails {
-    max-width: 330px;
-    margin-top: 13px;
-  }
-
-  .motionDetails code {
-    padding: 9px;
-    font-size: 8px;
-  }
-
-  .motionDetails ul {
-    grid-template-columns: 1fr 1fr;
-    gap: 5px 9px;
-    margin-top: 9px;
-    font-size: 6px;
-  }
-
-  .colours {
-    max-width: 345px;
-    gap: 9px;
-    margin-top: 14px;
-  }
-
-  .colours button {
-    gap: 5px;
-    font-size: 6px;
-  }
-
-  .colours button > span {
-    width: 31px;
-    height: 16px;
-  }
-
-  .metrics {
-    justify-content: flex-start;
-    gap: 15px;
-    margin-top: 14px;
-  }
-
-  .metrics strong {
-    font-size: 26px;
-  }
-
-  .metrics span {
-    font-size: 6px;
-  }
-
-  .vignette {
-    background: linear-gradient(
-      180deg,
-      rgba(7, 7, 7, 0.74) 0%,
-      rgba(7, 7, 7, 0.24) 29%,
-      transparent 43%,
-      transparent 84%,
-      rgba(7, 7, 7, 0.42) 100%
-    );
-  }
-
-  .blueprintGrid {
-    background-size:
-      48px 48px,
-      48px 48px,
-      100% 100%;
-  }
-
-  .blueprintGrid::before {
-    top: 42%;
-    left: -22%;
-    width: 250px;
-    height: 250px;
-  }
-
-  .blueprintGrid::after {
-    right: -18%;
-    bottom: 10%;
-    width: 190px;
-    height: 190px;
-  }
-
-  .marquee {
-    padding: 18px 0;
-    font-size: 7px;
-  }
-}
-
-@media (max-width: 420px) {
-  .chapter {
-    padding: 84px 15px 86px;
-  }
-
-  .chapter h1 {
-    max-width: 295px;
-    font-size: clamp(37px, 11.5vw, 49px);
-  }
-
-  .description {
-    max-width: 285px;
-    font-size: 8.5px;
-  }
-
-  .scrollPrompt,
-  .configureButton {
-    right: 15px;
-    bottom: 18px;
-    left: 15px;
-  }
-}
-
-/* =====================================================
-   MOBILE AXIOM-STYLE HEADER + CHAPTER DOTS
-   Desktop remains unchanged
-===================================================== */
 
 .desktopProgress {
   display: flex;
@@ -1275,205 +561,14 @@
   gap: 10px;
 }
 
-
-@media (max-width: 768px) {
-  /*
-   * Premium black header strip.
-   */
-  .header {
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 100;
-
-    display: flex;
-    width: 100%;
-    min-height: 74px;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 18px;
-
-    border-bottom:
-      1px solid rgba(255, 255, 255, 0.1);
-
-    background:
-      rgba(5, 5, 6, 0.94);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-
-    box-shadow:
-      0 8px 30px rgba(0, 0, 0, 0.28);
-
-    pointer-events: auto;
-  }
-
-  .logo {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 8px;
-  }
-
-  .logo strong {
-    font-size: 20px;
-    letter-spacing: 0.08em;
-    line-height: 1;
-  }
-
-  .logo span {
-    font-size: 7px;
-    letter-spacing: 0.22em;
-    white-space: nowrap;
-  }
-
-  .headerCenter,
-  .headerRight {
-    display: none;
-  }
-
-  /*
-   * Replace desktop vertical line with mobile dots.
-   */
-  .progress {
-    position: fixed;
-    top: 50%;
-    right: 14px;
-    z-index: 95;
-
-    display: block;
-
-    transform: translateY(-50%);
-    pointer-events: auto;
-  }
-
-  .desktopProgress {
-    display: none;
-  }
-
-  .mobileProgress {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-
-  @media (max-width: 768px) {
-  .progress {
-    position: fixed;
-    top: 50%;
-    right: 8px;
-    z-index: 95;
-    display: block;
-    transform: translateY(-50%);
-    pointer-events: auto;
-  }
-
-  .desktopProgress {
-    display: none;
-  }
-
-  .mobileProgress {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .progressDot {
-    display: block;
-    width: 11px;
-    height: 11px;
-    border: 1px solid rgba(243, 241, 235, 0.48);
-    border-radius: 50%;
-    background: transparent;
-    transition:
-      border-color 220ms ease,
-      background 220ms ease;
-  }
-
-  .progressDotActive {
-    border-color: var(--accent);
-    background: var(--accent);
-  }
-}
-
-@media (max-width: 420px) {
-  .progress {
-    right: 7px;
-  }
-
-  .mobileProgress {
-    gap: 15px;
-  }
-
-  .progressDot {
-    width: 10px;
-    height: 10px;
-  }
-}
-
-  /*
-   * Prevent the chapter text from going under the
-   * black mobile header.
-   */
-  .chapter {
-    padding-top: 96px;
-  }
-}
-
-@media (max-width: 420px) {
-  .header {
-    min-height: 70px;
-    padding: 0 15px;
-  }
-
-  .logo {
-    gap: 6px;
-  }
-
-  .logo strong {
-    font-size: 18px;
-  }
-
-  .logo span {
-    font-size: 6px;
-    letter-spacing: 0.18em;
-  }
-
-  .progress {
-    right: 11px;
-  }
-
-  .mobileProgress {
-    gap: 13px;
-  }
-
-  .progressDot {
-    width: 9px;
-    height: 9px;
-  }
-
-  .progressDotActive {
-    width: 13px;
-    height: 13px;
-  }
-
-  .chapter {
-    padding-top: 90px;
-  }
-}
-
-/* =====================================================
-   CLEAN MOBILE LAYOUT
-   AXIOM-style fixed 3D canvas
-===================================================== */
-
 .mobileProgress {
   display: none;
 }
 
+/* =====================================================
+   MOBILE STRUCTURE
+   Fixed canvas + one viewport chapter + overlay copy
+===================================================== */
 @media (max-width: 768px) {
   .page {
     width: 100%;
@@ -1493,24 +588,18 @@
     right: 0;
     left: 0;
     z-index: 100;
-
     display: flex;
     width: 100%;
     height: 72px;
     min-height: 72px;
     align-items: center;
     justify-content: flex-start;
-
     padding: 0 17px;
-
-    border-bottom: 1px solid
-      rgba(255, 255, 255, 0.1);
-
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(5, 5, 6, 0.94);
-
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
     pointer-events: auto;
   }
 
@@ -1543,31 +632,31 @@
   .chapters {
     position: relative;
     z-index: 5;
+    pointer-events: none;
   }
 
   .chapter {
     position: relative;
     display: flex;
-
     width: 100%;
     height: 100svh;
     min-height: 100svh;
-
     align-items: flex-start;
     justify-content: flex-start;
-
-    padding: 94px 34px 24px 17px;
-
     box-sizing: border-box;
+    overflow: hidden;
+    padding: 92px 34px 24px 17px;
   }
 
   .chapterCopy,
   .chapterRight .chapterCopy {
+    position: relative;
+    z-index: 12;
     width: 100%;
-    max-width: 330px;
+    max-width: 320px;
     min-height: 0;
-
     text-align: left;
+    pointer-events: auto;
   }
 
   .chapterRight .eyebrow {
@@ -1598,25 +687,17 @@
 
   .chapter h1 {
     width: 100%;
-    max-width: 320px;
-
-    font-size: clamp(
-      39px,
-      11.8vw,
-      53px
-    );
-
+    max-width: 305px;
+    font-size: clamp(37px, 11.5vw, 49px);
     line-height: 0.86;
     letter-spacing: -0.025em;
   }
 
   .description {
     width: 100%;
-    max-width: 300px;
-
-    margin-top: 13px;
-
-    font-size: 9px;
+    max-width: 290px;
+    margin-top: 12px;
+    font-size: 8.5px;
     line-height: 1.55;
   }
 
@@ -1624,13 +705,12 @@
   .configureButton {
     position: absolute;
     right: 34px;
-    bottom: 20px;
+    bottom: 18px;
     left: 17px;
-
+    z-index: 14;
     width: auto;
     margin: 0;
-    padding: 11px 0;
-
+    padding: 10px 0;
     font-size: 7px;
     letter-spacing: 0.15em;
   }
@@ -1641,8 +721,8 @@
   }
 
   .motionDetails {
-    max-width: 315px;
-    margin-top: 13px;
+    max-width: 305px;
+    margin-top: 12px;
   }
 
   .motionDetails code {
@@ -1653,17 +733,14 @@
   .motionDetails ul {
     grid-template-columns: 1fr 1fr;
     gap: 5px 9px;
-
     margin-top: 9px;
-
     font-size: 6px;
   }
 
   .colours {
-    max-width: 320px;
+    max-width: 305px;
     gap: 9px;
-
-    margin-top: 14px;
+    margin-top: 13px;
   }
 
   .colours button {
@@ -1678,9 +755,9 @@
 
   .metrics {
     justify-content: flex-start;
+    flex-wrap: wrap;
     gap: 15px;
-
-    margin-top: 14px;
+    margin-top: 13px;
   }
 
   .metrics strong {
@@ -1694,45 +771,40 @@
   .progress {
     position: fixed;
     top: 50%;
-    right: 8px;
+    right: 7px;
     z-index: 95;
-
     display: block;
-
     transform: translateY(-50%);
     pointer-events: auto;
+  }
+
+  .progress > div {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    background: transparent;
   }
 
   .mobileProgress {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 14px;
   }
 
   .progressDot {
     display: block;
-
     width: 9px;
     height: 9px;
-
-    border: 1px solid
-      rgba(243, 241, 235, 0.48);
-
+    border: 1px solid rgba(243, 241, 235, 0.48);
     border-radius: 50%;
     background: transparent;
-
-    transition:
-      width 220ms ease,
-      height 220ms ease,
-      border-color 220ms ease,
-      background 220ms ease;
+    transition: width 220ms ease, height 220ms ease, border-color 220ms ease, background 220ms ease;
   }
 
   .progressDotActive {
     width: 12px;
     height: 12px;
-
     border-color: var(--accent);
     background: var(--accent);
   }
@@ -1740,8 +812,8 @@
   .vignette {
     background: linear-gradient(
       180deg,
-      rgba(7, 7, 7, 0.72) 0%,
-      rgba(7, 7, 7, 0.25) 27%,
+      rgba(7, 7, 7, 0.74) 0%,
+      rgba(7, 7, 7, 0.24) 27%,
       transparent 42%,
       transparent 84%,
       rgba(7, 7, 7, 0.42) 100%
@@ -1749,10 +821,21 @@
   }
 
   .blueprintGrid {
-    background-size:
-      48px 48px,
-      48px 48px,
-      100% 100%;
+    background-size: 48px 48px, 48px 48px, 100% 100%;
+  }
+
+  .blueprintGrid::before {
+    top: 42%;
+    left: -22%;
+    width: 250px;
+    height: 250px;
+  }
+
+  .blueprintGrid::after {
+    right: -18%;
+    bottom: 10%;
+    width: 190px;
+    height: 190px;
   }
 
   .marquee {
@@ -1772,133 +855,27 @@
     gap: 6px;
   }
 
-  .logo strong {
-    font-size: 18px;
-  }
-
-  .logo span {
-    font-size: 6px;
-  }
-
   .chapter {
-    height: 100svh;
-    min-height: 100svh;
-    padding: 90px 31px 20px 15px;
+    padding: 88px 31px 20px 15px;
   }
 
   .chapterCopy,
   .chapterRight .chapterCopy {
-    max-width: 305px;
-    min-height: 0;
+    max-width: 295px;
   }
 
   .chapter h1 {
-    max-width: 295px;
-    font-size: clamp(
-      37px,
-      11.5vw,
-      49px
-    );
+    max-width: 290px;
   }
 
   .description {
-    max-width: 282px;
-    font-size: 8.5px;
+    max-width: 280px;
   }
 
   .scrollPrompt,
   .configureButton {
     right: 31px;
-    bottom: 18px;
+    bottom: 16px;
     left: 15px;
-  }
-
-  .progress {
-    right: 7px;
-  }
-}
-
-/* =====================================================
-   MOBILE: REDUCED CHAPTER GAP
-===================================================== */
-
-@media (max-width: 768px) {
-  .chapter {
-    position: relative;
-
-    height: auto;
-    min-height: 82svh;
-
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    overflow: hidden;
-
-    padding:
-      92px
-      32px
-      38px
-      16px;
-  }
-
-  .chapterCopy,
-  .chapterRight .chapterCopy {
-    position: relative;
-    z-index: 12;
-
-    width: 100%;
-    max-width: 320px;
-    min-height: 0;
-
-    text-align: left;
-    pointer-events: auto;
-  }
-
-  .chapter h1 {
-    max-width: 305px;
-  }
-
-  .description {
-    margin-top: 11px;
-  }
-
-  .motionDetails,
-  .colours,
-  .metrics {
-    margin-top: 12px;
-  }
-
-  .scrollPrompt,
-  .configureButton {
-    position: relative;
-
-    right: auto;
-    bottom: auto;
-    left: auto;
-
-    width: 100%;
-    margin-top: 18px;
-    padding: 10px 0;
-  }
-}
-
-@media (max-width: 420px) {
-  .chapter {
-    min-height: 78svh;
-
-    padding:
-      88px
-      28px
-      32px
-      15px;
-  }
-
-  .chapterCopy,
-  .chapterRight .chapterCopy {
-    max-width: 295px;
-  }
-
-  .chapter h1 {
-    max-width: 250px;
   }
 }
