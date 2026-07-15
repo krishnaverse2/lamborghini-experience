@@ -212,10 +212,26 @@
 }
 
 .chapterCopy h1 {
-  font-size: clamp(72px, 8.5vw, 170px);
-  line-height: 0.88;
-  letter-spacing: -0.04em;
+  font-family: var(--font-display);
+  font-size: clamp(78px, 9vw, 180px);
+
+  font-weight: 400;
+
+  line-height: 0.82;
+
+  letter-spacing: -0.065em;
+
   text-transform: uppercase;
+
+  color: #f5f3ee;
+
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  text-shadow:
+    0 2px 2px rgba(0,0,0,.35),
+    0 8px 22px rgba(0,0,0,.28);
 }
 
 .description {
@@ -768,14 +784,30 @@
     letter-spacing: 0.17em;
   }
 
-  .chapter h1 {
-    width: 100%;
-    max-width: 305px;
-    margin: 0;
-    font-size: clamp(37px, 11.5vw, 49px);
-    line-height: 0.86;
-    letter-spacing: -0.025em;
-  }
+ .chapter h1 {
+  width: 100%;
+  max-width: 330px;
+
+  margin: 0;
+
+  font-family: var(--font-display);
+
+  font-size: clamp(48px, 13vw, 64px);
+
+  font-weight: 400;
+
+  line-height: 0.84;
+
+  letter-spacing: -0.05em;
+
+  text-transform: uppercase;
+
+  color: #f5f3ee;
+
+  text-shadow:
+    0 2px 2px rgba(0,0,0,.35),
+    0 8px 22px rgba(0,0,0,.28);
+}
 
   .description {
     width: 100%;
