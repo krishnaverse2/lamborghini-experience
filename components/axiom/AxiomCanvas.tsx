@@ -1,6 +1,4 @@
 "use client";
-
-import ChapterBackdrop from "@/components/axiom/ChapterBackdrop";
 import CinematicCameraRig from "@/components/axiom/CinematicCameraRig";
 import RevueltoModel from "@/components/axiom/RevueltoModel";
 import type { MotionRef } from "@/components/axiom/types";
@@ -219,11 +217,7 @@ export default function AxiomCanvas({
          * Large chapter number rendered inside
          * the Three.js scene behind the car.
          */}
-        <ChapterBackdrop
-          activeChapter={
-            activeChapter
-          }
-        />
+       
 
         {/*
          * Lamborghini stays in front of the
