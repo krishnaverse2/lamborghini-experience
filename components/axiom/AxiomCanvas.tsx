@@ -61,6 +61,7 @@ export default function AxiomCanvas({
         gl.toneMappingExposure = 1;
         gl.outputColorSpace = SRGBColorSpace;
         gl.setClearColor(0x000000, 0);
+
         camera.lookAt(0.7, -0.15, 0);
       }}
     >
@@ -81,8 +82,15 @@ export default function AxiomCanvas({
 
       <CinematicCameraRig motionRef={motionRef} />
 
-      <ambientLight intensity={blueprintActive ? 0.04 : 0.26} />
+      <ambientLight
+        intensity={
+          blueprintActive
+            ? 0.04
+            : 0.26
+        }
+      />
 
+      {/* Main cinematic key light */}
       <spotLight
         position={[4, 7, 6]}
         intensity={
@@ -115,6 +123,7 @@ export default function AxiomCanvas({
         shadow-bias={-0.00015}
       />
 
+      {/* Left fill light */}
       <spotLight
         position={[-5, 3, 3]}
         intensity={
@@ -141,6 +150,7 @@ export default function AxiomCanvas({
         }
       />
 
+      {/* Rear separation light */}
       <spotLight
         position={[4, 3, -6]}
         intensity={
@@ -172,35 +182,14 @@ export default function AxiomCanvas({
           activeChapter={activeChapter}
         />
 
-        <mesh
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, -0.91, 0]}
-          receiveShadow
-        >
-          <planeGeometry args={[30, 24]} />
-          <meshStandardMaterial
-            color={
-              blueprintActive
-                ? "#020608"
-                : performanceChapterActive
-                  ? "#0a0405"
-                  : finalChapterActive
-                    ? "#0b0905"
-                    : "#080807"
-            }
-            metalness={blueprintActive ? 0 : 0.46}
-            roughness={blueprintActive ? 1 : 0.4}
-          />
-        </mesh>
-
         {!blueprintActive && (
           <ContactShadows
-            position={[0, -0.89, 0]}
-            opacity={colourChapterActive ? 0.62 : 0.72}
-            scale={10}
-            blur={2.8}
-            far={5}
-            resolution={512}
+            position={[0, -0.9, 0]}
+            opacity={0.32}
+            scale={8}
+            blur={3.5}
+            far={4}
+            resolution={1024}
             color="#000000"
           />
         )}
@@ -300,13 +289,19 @@ export default function AxiomCanvas({
 
           <Noise
             opacity={0.018}
-            blendFunction={BlendFunction.SOFT_LIGHT}
+            blendFunction={
+              BlendFunction.SOFT_LIGHT
+            }
           />
 
           <Vignette
             eskil={false}
             offset={0.2}
-            darkness={performanceChapterActive ? 0.76 : 0.68}
+            darkness={
+              performanceChapterActive
+                ? 0.76
+                : 0.68
+            }
           />
         </EffectComposer>
       </Suspense>
