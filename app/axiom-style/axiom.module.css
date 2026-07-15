@@ -956,3 +956,18 @@
     padding: 10px 0;
   }
 }
+
+@media (max-width: 768px) {
+  .chapter {
+    height: 88svh;
+    min-height: 88svh;
+    padding-bottom: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .chapter {
+    height: 78svh;
+    min-height: 78svh;
+  }
+}
