@@ -27,9 +27,13 @@
 }
 
 .canvasLayer canvas {
+  position: relative;
+  z-index: 2;
+
   display: block;
   width: 100% !important;
   height: 100% !important;
+
   pointer-events: none;
 }
 
@@ -37,7 +41,7 @@
 .grain {
   position: absolute;
   inset: 0;
-  z-index: 11;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -513,15 +517,35 @@
 .blueprintGrid {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
+
   opacity: 0.72;
   pointer-events: none;
+
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.085) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.085) 1px, transparent 1px),
-    radial-gradient(circle at 28% 54%, rgba(212, 170, 82, 0.055), transparent 34%);
-  background-size: 72px 72px, 72px 72px, 100% 100%;
-  transition: opacity 600ms ease, background-image 600ms ease;
+    linear-gradient(
+      rgba(255, 255, 255, 0.085) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.085) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 28% 54%,
+      rgba(212, 170, 82, 0.055),
+      transparent 34%
+    );
+
+  background-size:
+    72px 72px,
+    72px 72px,
+    100% 100%;
+
+  transition:
+    opacity 600ms ease,
+    background-image 600ms ease;
 }
 
 .blueprintGrid::before,
