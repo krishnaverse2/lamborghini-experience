@@ -14,7 +14,7 @@
 .canvasLayer {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
   width: 100%;
   height: 100svh;
   cursor: grab;
@@ -37,6 +37,7 @@
 .grain {
   position: absolute;
   inset: 0;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -132,7 +133,7 @@
 
 .chapters {
   position: relative;
-  z-index: 5;
+  z-index: auto;
   pointer-events: none;
 }
 
@@ -153,6 +154,8 @@
 }
 
 .chapterCopy {
+  position: relative;
+  z-index: 12;
   width: min(43vw, 640px);
   opacity: 0;
   filter: blur(7px);
@@ -510,24 +513,43 @@
 
 /* =====================================================
    TECHNICAL BACKGROUND LAYER
+   Brighter white engineering lines
 ===================================================== */
+
 .blueprintGrid {
   position: absolute;
   inset: 0;
-  opacity: 0.2;
+  z-index: 1;
+  opacity: 0.72;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    radial-gradient(circle at 28% 54%, rgba(212, 170, 82, 0.055), transparent 34%);
-  background-size: 72px 72px, 72px 72px, 100% 100%;
-  transition: opacity 600ms ease, background-image 600ms ease;
+    linear-gradient(
+      rgba(255, 255, 255, 0.085) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.085) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 28% 54%,
+      rgba(255, 255, 255, 0.055),
+      transparent 36%
+    );
+  background-size:
+    72px 72px,
+    72px 72px,
+    100% 100%;
+  transition:
+    opacity 600ms ease,
+    background-image 600ms ease;
 }
 
 .blueprintGrid::before,
 .blueprintGrid::after {
   position: absolute;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 50%;
   content: "";
 }
@@ -549,9 +571,20 @@
 .blueprintGridVisible {
   opacity: 1;
   background-image:
-    linear-gradient(rgba(29, 133, 180, 0.11) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(29, 133, 180, 0.11) 1px, transparent 1px),
-    radial-gradient(circle at 28% 54%, rgba(22, 200, 255, 0.1), transparent 34%);
+    linear-gradient(
+      rgba(61, 196, 232, 0.16) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(61, 196, 232, 0.16) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 28% 54%,
+      rgba(22, 200, 255, 0.14),
+      transparent 36%
+    );
 }
 
 .desktopProgress {
@@ -567,35 +600,36 @@
 
 
 /* =====================================================
-   LARGE OUTLINED CHAPTER NUMBER BACKGROUND
-   Applied to 01, 02, 03, 04 and 05
+   FULL-SCREEN OUTLINED CHAPTER NUMBER
+   Layer order: number < car canvas < chapter copy
 ===================================================== */
 
 .chapterNumberBackground {
   position: absolute;
   top: 52%;
   left: 50%;
-  z-index: 2;
-
-  width: 100%;
-
+  z-index: 1;
+  display: flex;
+  width: 112vw;
+  align-items: center;
+  justify-content: center;
   color: transparent;
   font-family: var(--font-display);
-  font-size: clamp(360px, 44vw, 720px);
+  font-size: clamp(390px, 48vw, 790px);
   font-weight: 400;
-  letter-spacing: -0.08em;
-  line-height: 0.72;
+  letter-spacing: -0.1em;
+  line-height: 0.7;
   text-align: center;
   white-space: nowrap;
-
-  -webkit-text-stroke: 1px rgba(243, 241, 235, 0.12);
-
-  filter: drop-shadow(
-    0 0 22px rgba(255, 255, 255, 0.025)
-  );
-
-  transform: translate(-50%, -50%);
-
+  -webkit-text-stroke:
+    1px rgba(255, 255, 255, 0.19);
+  filter:
+    drop-shadow(
+      0 0 24px rgba(255, 255, 255, 0.035)
+    );
+  transform:
+    translate(-50%, -50%)
+    rotate(-10deg);
   pointer-events: none;
   user-select: none;
 }
@@ -608,21 +642,21 @@
 @media (max-width: 768px) {
 
   .chapterNumberBackground {
-    top: 58%;
-    left: 48%;
-
-    font-size: clamp(245px, 94vw, 430px);
-    line-height: 0.72;
-    letter-spacing: -0.1em;
-
+    top: 59%;
+    left: 50%;
+    width: 118vw;
+    font-size: clamp(270px, 104vw, 470px);
+    line-height: 0.7;
+    letter-spacing: -0.11em;
     -webkit-text-stroke:
-      1px rgba(243, 241, 235, 0.13);
-
-    filter: drop-shadow(
-      0 0 18px rgba(255, 255, 255, 0.025)
-    );
-
-    transform: translate(-50%, -50%);
+      1px rgba(255, 255, 255, 0.2);
+    filter:
+      drop-shadow(
+        0 0 18px rgba(255, 255, 255, 0.04)
+      );
+    transform:
+      translate(-50%, -50%)
+      rotate(-11deg);
   }
 
   .page {
@@ -686,7 +720,7 @@
 
   .chapters {
     position: relative;
-    z-index: 5;
+    z-index: auto;
     pointer-events: none;
   }
 
@@ -911,8 +945,9 @@
 
   .chapterNumberBackground {
     top: 59%;
-    left: 47%;
-    font-size: clamp(225px, 96vw, 390px);
+    left: 50%;
+    width: 122vw;
+    font-size: clamp(255px, 108vw, 430px);
   }
 
   .header {

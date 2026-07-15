@@ -474,6 +474,13 @@ export default function AxiomExperience() {
               }`}
             >
               <div
+                className={styles.chapterNumberBackground}
+                aria-hidden="true"
+              >
+                {chapter.number}
+              </div>
+
+              <div
                 className={`${styles.chapterCopy} ${
                   activeChapter ===
                   index
